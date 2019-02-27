@@ -1,0 +1,19 @@
+flask-wtf: library used to create web forms.
+
+To use this extension, the flask instance "app" object must be configured with a secret key.
+*** Protects against cross-site request forgery. ***
+implemented in the template as a hidden input inside a form: {{ form.hidden_tag() }}
+
+flash() method
+To use this, you must both call the method when the route is called and call get_flashed_messages()
+in the template.
+
+validation errors -
+Flask-wtf validators that are passed to StringField, PasswordField etc constructors contain an
+iterable error list object. Simply call them in the template: form.username.errors, or form.password.errors
+
+url_for -
+url_for allows for generating URLs for specific views and enables less fragile code.
+If the code is restructured within the filesystem, url_for() will retrieve the URL dynamically.
+Just specify the name of the view minus the "html" extension.
+so for "dir/dir/dir/index.html" - instead say url_for('index')
