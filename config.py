@@ -5,7 +5,12 @@
 # Flask Mega Tutorial by Miguel Grinberg. Section 3, lecture 11
 
 import os
-base_directory = os.path.abspath(os.path.dirname(__file__))  # generate an abspath to dir containing db file
+# generate an abspath to dir containing db file
+# __file__ resolves to this files location on disk when os.path() is used.
+# adding .dirname(__file__) removes the filename from the path. The goal here is to get the directory
+# of the file by using it as a target. Then we remove the filename and attach our own filename using
+# os.path.join(dir, filename)
+base_directory = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config(object):
@@ -15,4 +20,4 @@ class Config(object):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
                               "sqlite:///" + os.path.join(base_directory, "app.db")
     SQLALCHEMY_TRACK_MODIFICATIONS = False  # used to signal application whenever an object changes.
-    # If not set to false, will alert you every time you start the server.
+    # If not set to false, will alert you every time you start the server. Annoying!

@@ -1,12 +1,14 @@
+D: = Dependency
 * D: flask-wtf: library used to create web forms.
 
 To use this extension, the flask instance "app" object must be configured with a secret key.
-*IMPORTANT: Protects against cross-site request forgery.
+*IMPORTANT: Protects against Cross-Site Request Forgery. CSRF
 implemented in the template as a hidden input inside a form: {{ form.hidden_tag() }}
 
 * flash() method
-To use this, you must both call the method when the route is called and call get_flashed_messages()
-in the template.
+To use this, you must both call the method when the route is called and call "get_flashed_messages()"
+in the template. The way I think of this is that it is placed into a buffer which is loaded
+onto the next screen.
 
 * validation errors -
 Flask-wtf validators that are passed to StringField, PasswordField etc constructors contain an
@@ -19,18 +21,25 @@ Just specify the name of the view minus the "html" extension.
 so for "dir/dir/dir/index.html" - instead say url_for('index')
 urls are no longer hardcoded into views
 
-* D: flask-sqlalchemy (Object Relational Mapper)
-    - supports SQLite, MySQL, and PostgreSQL.
+DATABASES: -------------------------------------------------
+
+* D: flask-sqlalchemy: (Object Relational Mapper)
+    - supports SQLite, MySQL, and Postgres.
     - enables an application to switch from any one of these DBMS systems without
         making changes to the application
-    - I am using SQLite as a development only database for this tutorial.
-        may also be a good production tool for gvlswing.com admin CMS
+    - I am using SQLite as a development-only database for this tutorial.
+        may also be a good production tool for gvlswing.com admin CMS since it will be small
+        scale and simple for now.
 
-* D: flask-migrate (Database Migration Framework) Alembic framework flask extension
+* D: flask-migrate: (Database Migration Framework) Alembic migration framework flask extension
+    - The migration framework is for development purposes. Because development often requires making
+        changes to the database schema, this framework helps to place those changes, which are tedious
+        when performed by hand in SQL
+
+DB indexing - how to decide what to index?
+Ask "what attributes will be searched for or written to most frequently?" !!!
+This will optimize searching in the database. This would be interesting to test this with/without index.
 
 
 When using "os.environ.get() or something", this should make the code less fragile and makes
-it more flexible for deployment. All that needs to be done is to set an environment variable.
-
-DB indexing - how to decide what to index? Ask "what attributes will be searched for frequently?" !!!
-This will optimize searching in the database.
+it more flexible for deployment. All that needs to be done is to set an environment variable in production.

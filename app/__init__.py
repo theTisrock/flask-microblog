@@ -11,4 +11,4 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)  # makes sense. Migration links app code & DB.
 # Similar to Code First versioning in ASP.NET Entity Framework
 
-from app import routes, models
+from app import routes, models  # putting models at the bottom helps prevent circular dependencies
