@@ -43,3 +43,29 @@ This will optimize searching in the database. This would be interesting to test 
 
 When using "os.environ.get() or something", this should make the code less fragile and makes
 it more flexible for deployment. All that needs to be done is to set an environment variable in production.
+
+    DB MIGRATIONS:----------------------------------------------------
+        initialize migration framework: flask db init
+            -creates a migrations directory, among other details
+
+        perform a migration: flask db migrate -m "description"
+            -generates the python code/script in a file under migrations/
+            comment: some of this code seems familiar and similar to Entity Framework,
+            upgrade, downgrade, etc.
+
+        apply migration to db: flask db upgrade
+            -this will apply the migration to the actual database.
+            this should generate the db file in SQLite.
+
+        undo previous migration: flask db downgrade
+            -attempts to undo a previous migration.
+
+        db history: flask db history
+            -similar to git hist or log
+
+        current db migration: flask db current
+            -similar to git status
+            -works only if you have applied a migration already
+
+
+
