@@ -8,7 +8,8 @@ class User(db.Model):  # db.Model is the base class for SQLAlchemy
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
-    posts = db.relationship('Post', backref='author', lazy='dynamic')
+    posts = db.relationship('Post', backref='author', lazy='dynamic')  # apparently, this line places
+    # an 'author' column in the Post table that will this table
 
     def __repr__(self):
         #  repr == representation. provides a representation of the model
@@ -23,4 +24,4 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))  # similar to navigation property in EF
 
     def __repr__(self):
-        return f"<Post {self.body}"
+        return f"<Post {self.body}>"

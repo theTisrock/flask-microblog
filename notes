@@ -23,6 +23,22 @@ urls are no longer hardcoded into views
 
 DATABASES: -------------------------------------------------
 
+Workflow:
+            1) install dependencies: flask-sqlalchemy, flask-migrate
+            2) setup database configuration URL in Config class; turn tracking on/off
+            3) instantiate SQLAlchemy object in __init__.py, passing app to the instance
+            4) instantiate Migrate object in __init__.py, passing db and app to instance
+            5) create models:
+                create table schema, optimize performance (create an index), define relationships.
+                __repr__(self): define this for debugging
+                NOTE: after this step is completed, the model only exists as Python objects.
+                      These models need to be migrated (generated into a script),
+                      then applied to an actual database.
+
+Models:
+            *All classes inside of models.py inherit from the SQLAlchemy class called "Model"
+                ex, [SQLAlchemy instance].Model or "class MyModel(db.Model)"
+
 * D: flask-sqlalchemy: (Object Relational Mapper)
     - supports SQLite, MySQL, and Postgres.
     - enables an application to switch from any one of these DBMS systems without
@@ -69,3 +85,12 @@ it more flexible for deployment. All that needs to be done is to set an environm
 
 
 
+    CRUD operations -------------------------------------------
+
+    CREATE  db.sesssion.add(element)
+    READ    [ModelName].query.get(id) or [ModelName].query.all() or [ModelName].query.order_by()
+    UPDATE
+    DELETE  db.session.delete(element)
+
+    TRANSACTIONS
+    COMMIT changes - db.session.commit()
