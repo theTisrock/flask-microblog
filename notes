@@ -37,6 +37,10 @@ Workflow:
                 NOTE: after this step is completed, the model only exists as Python objects.
                       These models need to be migrated (generated into a script),
                       then applied to an actual database.
+            6) Initialize migration framework: flask db init
+            6) create migration scripts - flask db migrate -m "description"
+            7) apply/remove migrations to the database - (apply)flask db upgrade OR (remove) flask db downgrade
+            
 
 Models:
             *All classes inside of models.py inherit from the SQLAlchemy class called "Model"
