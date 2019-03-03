@@ -1,3 +1,6 @@
+This text file is merely a blob of info I threw onto it when following Miguel Grinberg's Flask Tutorial.
+The text is **ROUGHLY** in order. Use this as a reference, not as a novel ;)
+
 D: = Dependency
 * D: flask-wtf: library used to create web forms.
 
