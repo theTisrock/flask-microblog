@@ -1,8 +1,10 @@
 from datetime import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin  # the applications User model must inherit from UserMixin
 from app import db
 
 
-class User(db.Model):  # db.Model is the base class for SQLAlchemy
+class User(UserMixin, db.Model):  # db.Model is the base class for SQLAlchemy
     # a user has many blog posts. 1-to-Many relationship
     id = db.Column(db.Integer, primary_key=True)  # primary key
     username = db.Column(db.String(64), index=True, unique=True)
@@ -15,6 +17,11 @@ class User(db.Model):  # db.Model is the base class for SQLAlchemy
         #  repr == representation. provides a representation of the model
         return f"<User {self.username}>"
 
+    def set_password(self, password):  # upon registration
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):  # upon login
+        return check_password_hash(self.password_hash, password)
 
 class Post(db.Model):
     # many posts belong to one author. Many-to-1 relationship

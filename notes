@@ -101,3 +101,19 @@ it more flexible for deployment. All that needs to be done is to set an environm
 
     TRANSACTIONS
     COMMIT changes - db.session.commit()
+
+
+PASSWORD HASHING--------------------------------------------------------
+
+    use werkzeug.security package methods: 1) generate_password_hash("phrase"), 2) check_password_hash(hash, "phrase")
+
+SESSION / LOGIN----------------------------------------------------------
+
+    DEFINITION: A user "session" is a private storage that is allocated for each client that connects to the application
+
+    D: flask-login (Session Management dependency)
+    pipenv install flask-login
+    initialization: from flask_login import LoginManager
+
+    Can work with any model User class. Requires 3 attributes and 1 method to be implemented.
+    Use the UserMixin class as a base
