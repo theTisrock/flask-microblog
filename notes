@@ -103,11 +103,12 @@ it more flexible for deployment. All that needs to be done is to set an environm
     COMMIT changes - db.session.commit()
 
 
-PASSWORD HASHING--------------------------------------------------------
-
-    use werkzeug.security package methods: 1) generate_password_hash("phrase"), 2) check_password_hash(hash, "phrase")
-
 SESSION / LOGIN----------------------------------------------------------
+
+    * PASSWORD HASHING--------------------------------------------------------
+    use werkzeug.security package methods: 1) generate_password_hash("phrase"), 2) check_password_hash(hash, "phrase")
+    Every time generate_password_hash() is called, even with the same parameters, a brand-new hash is generated!!!
+
 
     DEFINITION: A user "session" is a private storage that is allocated for each client that connects to the application
 
@@ -115,5 +116,20 @@ SESSION / LOGIN----------------------------------------------------------
     pipenv install flask-login
     initialization: from flask_login import LoginManager
 
-    Can work with any model User class. Requires 3 attributes and 1 method to be implemented.
-    Use the UserMixin class as a base
+        Can work with any model User class. Requires 3 attributes and 1 method to be implemented.
+        Use the UserMixin class as a base for the model that is using it.
+        1) @login.user_loader() method loads the user id into a session. placed in User model as static method.
+        2)
+
+    flask-login treats id's as strings. Must convert to int if you're intending to use it as an int.
+
+    Workflow:       prerequisites - some User model has been created.
+                                  - User class must inherit from UserMixin.
+                                  - import werkzeug.security: generate_password_hash, check_password_hash methods
+                                  - implement some set/get password_hash method in your User model
+
+                    steps - 1) extend the @login.user_loader(id) with a function that returns the User's int(id)
+                            2) take the username from the login form
+
+
+
