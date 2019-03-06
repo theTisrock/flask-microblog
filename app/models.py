@@ -24,7 +24,7 @@ class User(UserMixin, db.Model):  # db.Model is the base class for SQLAlchemy; M
         return check_password_hash(self.password_hash, password)
 
 
-@login.user_loader()  # this only loads a user session if client passes a session to the server
+@login.user_loader  # this only loads a user session if client passes a session to the server
 def load_user(id):
     return User.query.get(int(id))
 
