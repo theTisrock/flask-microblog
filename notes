@@ -114,14 +114,20 @@ SESSION / LOGIN----------------------------------------------------------
 
     D: flask-login (Session Management dependency)
     pipenv install flask-login
-    initialization: from flask_login import LoginManager
+    initialization: from flask_login import
+                    object: LoginManager -> register tha app with the extension,
+                    class: UserMixin -> enables a User model to become compatible with flask-login,
+                    static function: login_user -> updates current_user,
+                    object: current_user -> represents A) the logged in user or
+                                                       B) an anonymous user if they aren't logged in.
+    login = LoginManager(app)
 
-    Can work with any model User class. Requires 3 attributes and 1 method to be implemented.
-        1) Use the UserMixin class as a base for the model that is using it.
-        2) @login.user_loader() method loads the user id into a session. placed in User model as static method.
+    flask-login can work with any User model class. Requires 3 attributes and 1 method to be implemented.
+        1) extend your User model from UserMixin -> class User(UserMixin, otherparams)
+        2) @login.user_loader function loads the user id into a session. placed in User model as static method.
         3) login_user(user_object)
 
-    flask-login treats id's as strings. Must convert to int if you're intending to use it as an int.
+    ***IMPORTANT*** flask-login treats id's as strings. Must convert to int if you're intending to use it as an int.
 
     Workflow for Login
                 prerequisites - import login_user from flask-login.
@@ -130,8 +136,9 @@ SESSION / LOGIN----------------------------------------------------------
                                   - import werkzeug.security: generate_password_hash, check_password_hash methods
                                   - implement some set/get password_hash method in your User model
 
-                steps - 1) extend the @login.user_loader(id) with a function that returns the User's int(id)
-                        2) test that the username exists in the database, if so grab the user returned
+                steps - 1) extend the @login.user_loader function with a function that returns the User's int(id)
+                        2) test that the username exists in the database, if so grab the user returned.
+                            -use filter_by().first() to check if the username exists
                         3) check hash of the form password against password_hash stored in database.
                         4) redirect user back to login w/ ambiguous flash message if they fail authentication.
                         5) if step 3 suceeds, use login_user(user, remember=true/false) from flask-login to start a new session
