@@ -1,5 +1,5 @@
 from flask import render_template, flash, redirect, url_for
-from flask_login import login_user, current_user
+from flask_login import login_user, logout_user, current_user
 from app import app, login
 from app.models import User, Post
 from app.forms import LoginForm
@@ -9,6 +9,7 @@ from app.forms import LoginForm
 @app.route("/index")
 def index():
     user = {'username': "chris"}
+    # test data
     posts = [
         {
             'author' : {'username' : "John"},
@@ -39,3 +40,10 @@ def login():
 
         return redirect(url_for('index'))
     return render_template("login.html", title="log in", form=form)
+
+
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for("index"))
+
