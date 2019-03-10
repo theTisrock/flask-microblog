@@ -143,5 +143,23 @@ SESSION / LOGIN----------------------------------------------------------
                         4) redirect user back to login w/ ambiguous flash message if they fail authentication.
                         5) if step 3 suceeds, use login_user(user, remember=true/false) from flask-login to start a new session
 
+    Helpful features:
+
+        set login.login_view to the method that calls the login form page: login.login_view = 'login'
+        This will auto-redirect users to the login page when the rule is added *underneath* the @app.route decorators.
+        url_for() is used underneath this feature to call the correct action.
+
+        @app.route("/")
+        @app.route("/some/route")
+        @login_required
+        def func():
+            pass
+
+        After implementing login_required, it is good practice to redirect the user the page which they originally
+        intended to visit in the first place.
+        To help with this, flask-login will add URL query string "?next=%2Findex" meaning "next=[originally requested url]"
+        After the login is successful, you may redirect the user the to the page they wanted using this query string.
+        BUT before you redirect, make sure that the URL is only redirecting to our site and not someone else's, in case of
+        attack use werkzeug.urls : url_parse()
 
 

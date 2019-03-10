@@ -12,5 +12,6 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)  # makes sense. Migration links app code & DB.
 # Similar to Code First versioning in ASP.NET Entity Framework
 login = LoginManager(app)
+login.login_view = "login"  # uses url_for underneath
 
 from app import routes, models  # putting models at the bottom helps prevent circular dependencies
