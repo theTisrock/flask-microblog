@@ -1,9 +1,9 @@
 from flask import render_template, flash, redirect, url_for, request
 from werkzeug.urls import url_parse
 from flask_login import login_user, logout_user, current_user, login_required
-from app import app
+from app import app, db
 from app.models import User, Post
-from app.forms import LoginForm
+from app.forms import LoginForm, RegistrationForm
 
 
 @app.route("/")
@@ -52,3 +52,27 @@ def logout():
     logout_user()  # clears the user session
     return redirect(url_for("index"))
 
+
+@app.route("/register", methods=['GET', 'POST'])
+def register():
+    form = RegistrationForm()
+
+    if request.method == 'GET' and current_user.is_authenticated:
+        flash(f"You are currently logged in as {current_user.username}")
+        return redirect(url_for("index"))
+    elif request.method == 'POST' and form.validate_on_submit():
+        # process the form
+        new_user = User(username=form.username.data, email=form.email.data)  # add unique user info
+        new_user.set_password(form.password.data)  # set the user's password
+        # now they are ready to be added to the database
+        db.session.add(new_user)
+        db.session.commit()
+        flash(f"Registration successful for {new_user.username}")
+        return redirect(url_for("index"))
+
+    elif request.method == 'GET' and current_user.is_anonymous:
+        return render_template("register.html", title="Register", form=form)
+
+    return "Something went wrong with register() procedure"
+
+# end routes

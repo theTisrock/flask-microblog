@@ -163,3 +163,18 @@ SESSION / LOGIN----------------------------------------------------------
         attack use werkzeug.urls : url_parse()
 
 
+REGISTRATION: -------------------------------------------------------
+
+    Heavily relies upon flask-wtf validators. Two methods can be added to the registration form class to instruct
+    flask-wtf to validate unique fields within the database as part of validation protocol for that form.
+
+    class RegistrationForm(FlaskForm):
+        [form code]
+
+        def validate_[attribute](self, attrib):
+            exists = [Model].query.filter_by(attrib=attrib).first()
+            if exists is not None:
+                raise ValidationError("error validating attrib")
+
+    After this, we do not have to take care of anymore validation in our route. We let flask-wtf do this for us. That
+    way we can concentrate on the registration process at a more high level.
