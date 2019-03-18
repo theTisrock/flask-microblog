@@ -1,1 +1,1 @@
-from app import app  # this is where flask obtains the application instance
+from microblog_app import app  # entry point
