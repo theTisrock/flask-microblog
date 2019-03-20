@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p>{{ user.username }}</p>
+
+    {% if posts %}
+    <ul>
+        {% for post in posts %}
+        <li>
+            <p>{{ post.author.username}} says ...</p>
+            <p>{{ post.body }}</p>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+        <p>You don't have any blog posts yet!</p>
+    {% endif %}
+{% endblock %}

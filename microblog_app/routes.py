@@ -77,6 +77,17 @@ def register():
     return "Error in register action"  # debugging
 
 
+@app.route(URLRoute.user)
+@login_required
+def user(username):
+    user = User.query.filter_by(username=username).first_or_404()  # returns either element or 404 response
+    posts = [
+        {'author': user, 'body': "Test blog #1"},
+        {'author': user, 'body': "Test blog #2"}
+    ]
+    return render_template("user.html", user=user, posts=posts)
+
+
 # idea: build a class of urls and corresponding action names. Less fragile.
 # I would only have to change action names in class instead of strings in every route, redirect, or url_for() call
 

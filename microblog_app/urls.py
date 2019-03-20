@@ -11,6 +11,7 @@ class Action():
     login = 'login'
     logout = 'logout'
     register = 'register'
+    user = 'user'
 
 # URLRoute class - Static only. Holds route names.
 # Advantage: better seperation of concerns. easy to rename routes
@@ -26,5 +27,6 @@ class URLRoute():
     login = "/login"
     logout = "/logout"
     register = "/register"
+    user = "/user/<username>"
 
 # end urls
