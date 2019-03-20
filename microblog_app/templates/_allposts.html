@@ -1,0 +1,14 @@
+{% if posts and current_user.is_authenticated %}
+
+    {% for post in posts %}
+        <table>
+            <tr valign="top">
+                <td><img src="{{ post.author.pull_avatar(36) }}"></td>
+                <td>{{ post.author.username}} says ...<b>{{ post.body }}</b></td>
+            </tr>
+        </table>
+    {% endfor %}
+
+{% elif current_user.is_anonymous %}
+    <p>No blog posts to show!</p>
+{% endif %}
