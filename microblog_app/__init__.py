@@ -10,6 +10,7 @@ app.config.from_object(Config)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 login = LoginManager(app)
+login.login_view = 'login'
 
 # the below line is non-conventional placement. This is because the above object "app" will be imported from
 # this module into the routes module. Then, the decorators will add routes to the app object.
