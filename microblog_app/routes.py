@@ -7,6 +7,12 @@ from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.urls import url_parse
 
 
+@app.before_request  # applies to all routes in the application
+def before_request():
+    if current_user.is_authenticated:
+        current_user.timestamp_on_request()
+
+
 @app.route(URLRoute.home['root'])  # app decorators first
 @app.route(URLRoute.home['index'])
 @login_required  # then login decorators

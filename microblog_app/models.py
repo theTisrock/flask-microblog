@@ -17,15 +17,20 @@ class User(UserMixin, db.Model): # UserMixin makes model compatible with flask-l
     def __repr__(self):  # used as representation of row data in the database used for each instance of a model
         return f"<user {self.username}>"
 
-    def set_password(self, sanitized_password):  # upon register
-        self.password_hash = generate_password_hash(sanitized_password)
-
     def check_password(self, sanitized_password):  # upon login
         return check_password_hash(self.password_hash, sanitized_password)
 
     def pull_avatar(self, size):
         digest = md5(self.email.lower().encode('utf-8')).hexdigest()
         return f"https://www.gravatar.com/avatar/{digest}?d=identicon&s={size}"
+
+    def set_password(self, sanitized_password):  # upon register
+        self.password_hash = generate_password_hash(sanitized_password)
+
+    def timestamp_on_request(self):  # time stamp to update last_visited in db upon request of any page
+        self.last_visited = datetime.utcnow()
+        # db.session.add(self)
+        db.session.commit()
 
 
 @login.user_loader
