@@ -1,4 +1,5 @@
-{% if posts and current_user.is_authenticated %}
+<!-- all posts -->
+{% if posts %}
 
     {% for post in posts %}
         <table>
@@ -9,6 +10,6 @@
         </table>
     {% endfor %}
 
-{% elif current_user.is_anonymous %}
+{% else %}
     <p>No blog posts to show!</p>
 {% endif %}

@@ -11,15 +11,10 @@ from werkzeug.urls import url_parse
 @app.route(URLRoute.home['index'])
 @login_required  # then login decorators
 def index():
-    posts = [
-        {
-            'author': {'username': "John"},
-            'body': "It's such a beautiful day"
-        },
-        {
-            'author': {'username': "Susan"},
-            'body': "Susan's first blog!"
-        }
+    user = User.query.filter_by(username=current_user.username).first()
+    posts = posts = [
+        {'author': user, 'body': "Test blog #1"},
+        {'author': user, 'body': "Test blog #2"}
     ]
     return render_template("index.html", title="Home", posts=posts)
 

@@ -1,14 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>User: {{ user.username }}</h1>
-    <hr>
 
-    {% if posts %}
-        {% for post in posts %}
-            <p>{{ post.author.username}} says ...<b>{{ post.body }}</b></p>
-        {% endfor %}
-    {% else %}
-        <p>You don't have any blog posts yet!</p>
-    {% endif %}
+<table>
+    <tr valign=top">
+        <td><img src="{{ user.pull_avatar(128) }}"></td>
+        <td><h1>User: {{ user.username }}</h1></td>
+        <td><p>last seen: {% if user.last_visited %} {{ user.last_visited }} {% else %} no info {% endif %}</p></td>
+    </tr>
+    <tr>
+        <td>about {{ user.username }}:</td>
+        <td>{% if user.about_me %} {{ user.about_me }} {% else %} No information {% endif %}</td>
+    </tr>
+    <hr>
+</table>
+
+{% include "_allposts.html" %}
 {% endblock %}

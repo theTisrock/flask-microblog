@@ -1,4 +1,5 @@
 from datetime import datetime
+from hashlib import md5
 from microblog_app import db, login
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
@@ -10,6 +11,8 @@ class User(UserMixin, db.Model): # UserMixin makes model compatible with flask-l
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
     posts = db.relationship('Post', backref='author', lazy='dynamic')
+    about_me = db.Column(db.String(140))
+    last_visited = db.Column(db.DateTime, default=datetime.utcnow())
 
     def __repr__(self):  # used as representation of row data in the database used for each instance of a model
         return f"<user {self.username}>"
@@ -19,6 +22,10 @@ class User(UserMixin, db.Model): # UserMixin makes model compatible with flask-l
 
     def check_password(self, sanitized_password):  # upon login
         return check_password_hash(self.password_hash, sanitized_password)
+
+    def pull_avatar(self, size):
+        digest = md5(self.email.lower().encode('utf-8')).hexdigest()
+        return f"https://www.gravatar.com/avatar/{digest}?d=identicon&s={size}"
 
 
 @login.user_loader
