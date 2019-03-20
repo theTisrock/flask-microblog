@@ -26,12 +26,12 @@ class RegistrationForm(FlaskForm):
     # custom validators passed to framework: validate_field(self, field_object)
     def validate_username(self, username):  # if that user does not exist, its valid. user must be unique.
         found_user = User.query.filter_by(username=username.data).first()
-        if found_user is not None:
+        if found_user:
             raise ValidationError("Please use a different username.")
 
     def validate_email(self, email):
         found_email = User.query.filter_by(email=email.data).first()
-        if found_email is not None:
+        if found_email:
             raise ValidationError("Please use a different email.")
 
 # end forms

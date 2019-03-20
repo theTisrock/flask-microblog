@@ -1,17 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <p>{{ user.username }}</p>
+    <h1>User: {{ user.username }}</h1>
+    <hr>
 
     {% if posts %}
-    <ul>
         {% for post in posts %}
-        <li>
-            <p>{{ post.author.username}} says ...</p>
-            <p>{{ post.body }}</p>
-        </li>
+            <p>{{ post.author.username}} says ...<b>{{ post.body }}</b></p>
         {% endfor %}
-    </ul>
     {% else %}
         <p>You don't have any blog posts yet!</p>
     {% endif %}
