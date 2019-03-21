@@ -1,5 +1,5 @@
 from microblog_app import app, db  # importing the Flask object called "app" in __init__.py
-from microblog_app.forms import LoginForm, RegistrationForm
+from microblog_app.forms import LoginForm, RegistrationForm, EditProfileForm
 from microblog_app.models import User, Post
 from microblog_app.urls import Action,URLRoute
 from flask import render_template, flash, redirect, url_for, request
@@ -11,6 +11,22 @@ from werkzeug.urls import url_parse
 def before_request():
     if current_user.is_authenticated:
         current_user.timestamp_on_request()
+
+
+@app.route(URLRoute.edit_profile, methods=['GET', 'POST'])
+@login_required
+def edit_profile():
+    edit_profile_form = EditProfileForm()
+    if edit_profile_form.validate_on_submit() and request.method == 'POST':  # accept changes
+        current_user.username = edit_profile_form.username.data
+        current_user.about_me = edit_profile_form.about_me.data
+        db.session.commit()
+        flash(f"Saved changes to \"About Me\" section for {current_user.username}")
+        redirect(url_for(Action.edit_profile))
+    elif request.method == 'GET':  # pre-populate current state of 'About me' section
+        edit_profile_form.username.data = current_user.username
+        edit_profile_form.about_me.data = current_user.about_me
+    return render_template("edit_profile.html", title="Edit Profile", form=edit_profile_form)
 
 
 @app.route(URLRoute.home['root'])  # app decorators first

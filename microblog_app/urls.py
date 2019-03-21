@@ -7,6 +7,7 @@
 
 
 class Action():
+    edit_profile = 'edit_profile'
     index = 'index'
     login = 'login'
     logout = 'logout'
@@ -19,6 +20,7 @@ class Action():
 
 
 class URLRoute():
+    edit_profile = "/edit_profile"
     home = {
                 'root': "/",
                 'index': "/index"
