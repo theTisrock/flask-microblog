@@ -1,3 +1,5 @@
+# __init__
+
 from flask import Flask
 from config import Config
 from flask_sqlalchemy import SQLAlchemy
@@ -16,4 +18,6 @@ login.login_view = 'login'
 # this module into the routes module. Then, the decorators will add routes to the app object.
 # then this module will import
 
-from microblog_app import routes, models
+from microblog_app import routes, models, errors
+
+# end __init__

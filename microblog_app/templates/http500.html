@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Internal error</h1>
+<div class="errors">
+    <p>
+        It's not you ... it's me. Something broke on my end. I've notified the administrator.
+    </p>
+    <p><a href="{{ url_for('index') }}">Back</a></p>
+</div>
+{% endblock %}
