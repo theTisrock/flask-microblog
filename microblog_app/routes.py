@@ -1,12 +1,11 @@
 from microblog_app import app, db  # importing the Flask object called "app" in __init__.py
 from microblog_app.forms import LoginForm, RegistrationForm, EditProfileForm
 from microblog_app.models import User, Post
-from microblog_app.urls import Action, URLRoute
+from microblog_app.urls import Action,URLRoute
 from flask import render_template, flash, redirect, url_for, request
 from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.urls import url_parse
-# from sqlite3 import IntegrityError
-from sqlalchemy.exc import IntegrityError
+from sqlite3.dbapi2 import IntegrityError
 
 
 @app.before_request  # applies to all routes in the application
@@ -19,24 +18,13 @@ def before_request():
 @app.route(URLRoute.edit_profile, methods=['GET', 'POST'])
 @login_required
 def edit_profile():
-    edit_profile_form = EditProfileForm()
+    edit_profile_form = EditProfileForm(current_user.username)
 
     if edit_profile_form.validate_on_submit() and request.method == 'POST':  # accept changes
             current_user.username = edit_profile_form.username.data
             current_user.about_me = edit_profile_form.about_me.data
-            try:
-                db.session.commit()  # error should trigger here
-            except IntegrityError:
-                db.session.rollback()
-                flash("Bad username")
-            except ConnectionRefusedError:
-                pass
-
-            else:
-                flash(f"Saved changes to \"About Me\" section for {current_user.username}")
-                # return redirect(url_for(Action.edit_profile))
-            finally:
-                pass
+            db.session.commit()
+            flash(f"Saved changes to \"About Me\" section for {current_user.username}")
 
     elif request.method == 'GET':  # pre-populate current state of 'About me' section
         edit_profile_form.username.data = current_user.username
