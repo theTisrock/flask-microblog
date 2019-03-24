@@ -1,10 +1,12 @@
 from microblog_app import app, db  # importing the Flask object called "app" in __init__.py
 from microblog_app.forms import LoginForm, RegistrationForm, EditProfileForm
 from microblog_app.models import User, Post
-from microblog_app.urls import Action,URLRoute
+from microblog_app.urls import Action, URLRoute
 from flask import render_template, flash, redirect, url_for, request
 from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.urls import url_parse
+# from sqlite3 import IntegrityError
+from sqlalchemy.exc import IntegrityError
 
 
 @app.before_request  # applies to all routes in the application
@@ -13,22 +15,37 @@ def before_request():
         current_user.timestamp_on_request()
 
 
+# edit profile
 @app.route(URLRoute.edit_profile, methods=['GET', 'POST'])
 @login_required
 def edit_profile():
     edit_profile_form = EditProfileForm()
+
     if edit_profile_form.validate_on_submit() and request.method == 'POST':  # accept changes
-        current_user.username = edit_profile_form.username.data
-        current_user.about_me = edit_profile_form.about_me.data
-        db.session.commit()
-        flash(f"Saved changes to \"About Me\" section for {current_user.username}")
-        redirect(url_for(Action.edit_profile))
+            current_user.username = edit_profile_form.username.data
+            current_user.about_me = edit_profile_form.about_me.data
+            try:
+                db.session.commit()  # error should trigger here
+            except IntegrityError:
+                db.session.rollback()
+                flash("Bad username")
+            except ConnectionRefusedError:
+                pass
+
+            else:
+                flash(f"Saved changes to \"About Me\" section for {current_user.username}")
+                # return redirect(url_for(Action.edit_profile))
+            finally:
+                pass
+
     elif request.method == 'GET':  # pre-populate current state of 'About me' section
         edit_profile_form.username.data = current_user.username
         edit_profile_form.about_me.data = current_user.about_me
+
     return render_template("edit_profile.html", title="Edit Profile", form=edit_profile_form)
 
 
+# index
 @app.route(URLRoute.home['root'])  # app decorators first
 @app.route(URLRoute.home['index'])
 @login_required  # then login decorators
@@ -41,6 +58,7 @@ def index():
     return render_template("index.html", title="Home", posts=posts)
 
 
+# login
 @app.route(URLRoute.login, methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:  # current user is either authenticated or anonymous
@@ -62,12 +80,14 @@ def login():
     return render_template("login.html", title="Login", form=form)
 
 
+# logout
 @app.route(URLRoute.logout)
 def logout():
     logout_user()  # clear the user session
     return redirect(Action.login)
 
 
+# register
 @app.route(URLRoute.register, methods=['GET', 'POST'])
 def register():
     registration_form = RegistrationForm()
@@ -94,6 +114,7 @@ def register():
     return "Error in register action"  # debugging
 
 
+# user
 @app.route(URLRoute.user)
 @login_required
 def user(username):
