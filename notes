@@ -178,3 +178,30 @@ REGISTRATION: -------------------------------------------------------
 
     After this, we do not have to take care of anymore validation in our route. We let flask-wtf do this for us. That
     way we can concentrate on the registration process at a more high level.
+
+
+DATABASES RELATIONSHIPS: -------------------------------------------------
+
+Cheat sheet: needs verified
+
+if direction1 == 1 to many and direction2 == 1 to many:
+	return many-to-many
+
+	example:    direction1 = 1 project managed by many employees => 1 to many
+	            direction2 = 1 employee manages many projects    => 1 to many
+	            result many to many
+
+if direction1 == 1 to many and direction2 == 1 to 1:
+	return one-to-many
+
+	example:    direction1 = 1 user has many posts => 1 to many
+	            direction2 = 1 post has 1 user     => 1 to 1
+	            result = 1 to many
+
+if direction1 == 1 to 1 and direction2 == 1 to 1:
+	return 1 to 1
+
+	example:    direction1 = 1 person can be 1 superhero => 1 to 1
+	            direction2 = 1 superhero can be 1 person => 1 to 1
+	            result = 1 to 1
+
