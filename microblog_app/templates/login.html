@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Sign in</h1>
+    <form action="/login" method="post">
+
+        {{ form.hidden_tag() }}
+
+<<<<<<< HEAD:app/templates/login.html
+<p>New User?<a href="{{ url_for('register') }}">Click to Register</a></p>
+
+=======
+        <p>
+            {{ form.username.label }} <br>
+            {{ form.username(size=32) }} <br>
+            {% for error in form.username.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </p>
+
+        <p>
+            {{ form.password.label }} <br>
+            {{ form.password(size=32) }} <br>
+            {% for error in form.password.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.remember_me() }}
+            {{ form.remember_me.label }}
+        </p>
+        <p>
+            {{ form.submit }}
+        </p>
+    </form>
+
+<div><p><a href="{{ url_for('register') }}">Join us!</a></p></div>
+>>>>>>> repeat-master:microblog_app/templates/login.html
+{% endblock%}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if user == current_user %}<p><a href="{{ url_for('edit_profile') }}">Edit Profile</a></p>{% endif %}
+
+<table>
+    <tr valign=top">
+        <td><img src="{{ user.pull_avatar(128) }}"></td>
+        <td><h1>User: {{ user.username }}</h1></td>
+        <td><p>last seen: {% if user.last_visited %} {{ user.last_visited }} {% else %} no info {% endif %}</p></td>
+    </tr>
+    <tr>
+        <td>about {{ user.username }}:</td>
+        <td>{% if user.about_me %} {{ user.about_me }} {% else %} No information {% endif %}</td>
+    </tr>
+    <hr>
+</table>
+
+{% include "_allposts.html" %}
+{% endblock %}

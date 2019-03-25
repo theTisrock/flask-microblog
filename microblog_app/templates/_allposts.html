@@ -1,0 +1,15 @@
+<!-- all posts -->
+{% if posts %}
+
+    {% for post in posts %}
+        <table>
+            <tr valign="top">
+                <td><img src="{{ post.author.pull_avatar(36) }}"></td>
+                <td>{{ post.author.username}} says ...<b>{{ post.body }}</b></td>
+            </tr>
+        </table>
+    {% endfor %}
+
+{% else %}
+    <p>No blog posts to show!</p>
+{% endif %}
