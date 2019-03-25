@@ -214,3 +214,8 @@ if direction1 == 1 to 1 and direction2 == 1 to 1:
     Solutions:
         1) Keep migrations versions stored as backups
         2) Reinitialize the database from current code base - what I did
+
+    Why are there no commits outside of the routes functions???
+    -The routes functions represent the duration of a request. We only want to commit at the very end of the request.
+    If we commit in the middle and then the transaction gets interrupted/terminated the full integrity of the request is
+    compromised.  
