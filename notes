@@ -5,7 +5,7 @@ D: = Dependency
 * D: flask-wtf: library used to create web forms.
 
 To use this extension, the flask instance "app" object must be configured with a secret key.
-*IMPORTANT: Protects against Cross-Site Request Forgery. CSRF
+*SECURITY NOTE: Protects against Cross-Site Request Forgery. CSRF
 implemented in the template as a hidden input inside a form: {{ form.hidden_tag() }}
 
 * flash() method
@@ -20,8 +20,8 @@ iterable error list object. Simply call them in the template: form.username.erro
 * url_for -
 url_for allows for generating URLs for specific views and enables less fragile code.
 If the code is restructured within the filesystem, url_for() will retrieve the URL dynamically.
-Just specify the name of the view minus the "html" extension.
-so for "dir/dir/dir/index.html" - instead say url_for('index')
+Just specify the name of the method that calls the action.
+
 urls are no longer hardcoded into views
 
 DATABASES: -------------------------------------------------
@@ -38,8 +38,8 @@ Workflow:
                       These models need to be migrated (generated into a script),
                       then applied to an actual database.
             6) Initialize migration framework: flask db init
-            6) create migration scripts - flask db migrate -m "description"
-            7) apply/remove migrations to the database - (apply)flask db upgrade OR (remove) flask db downgrade
+            7) create migration scripts - flask db migrate -m "description"
+            8) apply/remove migrations to the database - (apply)flask db upgrade OR (remove) flask db downgrade
             
 
 Models:
@@ -96,7 +96,7 @@ it more flexible for deployment. All that needs to be done is to set an environm
 
     CREATE  db.sesssion.add(element)
     READ    [ModelName].query.get(id) or [ModelName].query.all() or [ModelName].query.order_by()
-    UPDATE
+    UPDATE  just modify the object in place and call db.session.commit() to save
     DELETE  db.session.delete(element)
 
     TRANSACTIONS
@@ -159,7 +159,7 @@ SESSION / LOGIN----------------------------------------------------------
         intended to visit in the first place.
         To help with this, flask-login will add URL query string "?next=%2Findex" meaning "next=[originally requested url]"
         After the login is successful, you may redirect the user the to the page they wanted using this query string.
-        BUT before you redirect, make sure that the URL is only redirecting to our site and not someone else's, in case of
+        BUT before you redirect, SECURITY make sure that the URL is only redirecting to our site and not someone else's, in case of
         attack use werkzeug.urls : url_parse()
 
 
