@@ -180,7 +180,9 @@ REGISTRATION: -------------------------------------------------------
     way we can concentrate on the registration process at a more high level.
 
 
-DATABASES RELATIONSHIPS: -------------------------------------------------
+DATABASES REVISITED: -------------------------------------------------
+
+RELATIONSHIPS: ----
 
 Cheat sheet: needs verified
 
@@ -205,3 +207,10 @@ if direction1 == 1 to 1 and direction2 == 1 to 1:
 	            direction2 = 1 superhero can be 1 person => 1 to 1
 	            result = 1 to 1
 
+    ISSUES: -----
+    Once columns have been named, renaming columns in SQLite seems to be unsupported somehow. Postgres and MySQL
+    don't seem to have this problem.
+     
+    Solutions:
+        1) Keep migrations versions stored as backups
+        2) Reinitialize the database from current code base - what I did
