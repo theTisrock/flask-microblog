@@ -205,3 +205,27 @@ if direction1 == 1 to 1 and direction2 == 1 to 1:
 	            direction2 = 1 superhero can be 1 person => 1 to 1
 	            result = 1 to 1
 
+
+    RELATIONSHIP REPRESENTATIONS IMPLEMENTED:
+
+    ONE - to - MANY -
+
+    Users to Posts : 1 User has many Post, 1 post belongs to 1 user => 1 to many relationship
+
+    Here, the "many side" is the Post table. To implement the 1 to many relationship, each Post must have a connection
+    to exactly 1 user.
+
+    Solution: we place a foreign key inside of Post that references the primary key of the User table.
+
+    MANY - to - MANY -
+    Miguel says...
+    Many to many relationships cannot be implemented simply by inserting foreign keys. They are implemented using an
+    auxiliary table. Recall the example given in CSCI 520.
+
+    Tables: Customers, Bars
+
+    Consider the relationship. One customer can frequent many bars. 1 bar can host many customers.
+    This is a many to many situation.
+
+    The implementation is an auxiliary table that I will call "Frequents". Frequents is, at minimum, comprised of
+    1 FK that links to each customer + 1 FK that links to each bar + 1 PK (required for any table)
