@@ -215,7 +215,7 @@ if direction1 == 1 to 1 and direction2 == 1 to 1:
     Here, the "many side" is the Post table. To implement the 1 to many relationship, each Post must have a connection
     to exactly 1 user.
 
-    Solution: we place a foreign key inside of Post that references the primary key of the User table.
+    Solution: we place a foreign key inside of Post (many side) that references the primary key of the User (1 side) table.
 
     MANY - to - MANY -
     Miguel says...
@@ -229,3 +229,8 @@ if direction1 == 1 to 1 and direction2 == 1 to 1:
 
     The implementation is an auxiliary table that I will call "Frequents". Frequents is, at minimum, comprised of
     1 FK that links to each customer + 1 FK that links to each bar + 1 PK (required for any table)
+
+    1 - to - 1
+
+    Implemented as 1 to many, but with a constraint enforced on the many side to be either 0 or 1
+
