@@ -47,6 +47,18 @@ class User(UserMixin, db.Model): # UserMixin makes model compatible with flask-l
         # db.session.add(self)
         db.session.commit()
 
+    def follow(self, user):
+        if not self.is_following(user):
+            self.followed.append(user)
+
+    def unfollow(self, user):
+        if self.is_following(user):
+            self.followed.remove(user)
+
+    def is_following(self, user):
+        return self.followed.filter(followers.c.followed_id == user.id).count() > 0
+
+
 
 @login.user_loader
 def load_user(id):
