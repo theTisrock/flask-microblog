@@ -219,3 +219,32 @@ if direction1 == 1 to 1 and direction2 == 1 to 1:
     -The routes functions represent the duration of a request. We only want to commit at the very end of the request.
     If we commit in the middle and then the transaction gets interrupted/terminated the full integrity of the request is
     compromised.  
+
+    RELATIONSHIP REPRESENTATIONS IMPLEMENTED:
+
+    ONE - to - MANY -
+
+    Users to Posts : 1 User has many Post, 1 post belongs to 1 user => 1 to many relationship
+
+    Here, the "many side" is the Post table. To implement the 1 to many relationship, each Post must have a connection
+    to exactly 1 user.
+
+    Solution: we place a foreign key inside of Post (many side) that references the primary key of the User (1 side) table.
+
+    MANY - to - MANY -
+    Miguel says...
+    Many to many relationships cannot be implemented simply by inserting foreign keys. They are implemented using an
+    auxiliary table. Recall the example given in CSCI 520.
+
+    Tables: Customers, Bars
+
+    Consider the relationship. One customer can frequent many bars. 1 bar can host many customers.
+    This is a many to many situation.
+
+    The implementation is an auxiliary table that I will call "Frequents". Frequents is, at minimum, comprised of
+    1 FK that links to each customer + 1 FK that links to each bar + 1 PK (required for any table)
+
+    1 - to - 1
+
+    Implemented as 1 to many, but with a constraint enforced on the many side to be either 0 or 1
+
