@@ -58,6 +58,11 @@ class User(UserMixin, db.Model): # UserMixin makes model compatible with flask-l
     def is_following(self, user):
         return self.followed.filter(followers.c.followed_id == user.id).count() > 0
 
+    def followed_posts(self):
+        followed = Post.query.join(
+            followers, (followers.c.followed_id == Post.user_id)
+        ).filter(followers.c.follower_id == self.id)
+        return followed.union(self.posts).order_by(Post.timestamp.desc())
 
 
 @login.user_loader
