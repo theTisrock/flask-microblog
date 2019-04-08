@@ -248,3 +248,45 @@ if direction1 == 1 to 1 and direction2 == 1 to 1:
 
     Implemented as 1 to many, but with a constraint enforced on the many side to be either 0 or 1
 
+UNIT TESTING: -----------------------------------------------------------
+
+    Python3 "unittest" library - https://docs.python.org/3/library/unittest.html
+
+    4 Components involved ---
+
+        Test Fixture - (test preparation)
+
+            This is the CONTEXT of the test. Anything to do with the environment that needs to be created is part of
+            the test fixture for ***temporary*** testing purposes. For example:
+                *starting then stopping a server
+                *creating then destroying a database
+                *creating then destroying directories or files
+
+            setUp() - setup temporary resources and context
+            tearDown() -  remove components of setup()
+
+        Test Case - (individual unit of testing)
+
+            This is the individual unit of testing, which checks for a specified response to inputs. Stored in the
+            "unittest" library is the class named TestCase which is used to create test cases.
+
+        Test Suite -
+
+            A test suite at minimum combines many test cases that must be executed together. A test suite can also
+            be composed of other test suites.
+
+        Test Runner -
+
+            This orchestrates the test cases and provides the outcome to the user. The end game of the test runner is
+            to accumulate test results and display them in a report.
+
+
+        Inside of a test class, per convention, you must prepend any test method with "test_".
+
+        CORE test methods - assert
+
+        *assertEqual()
+        *assertTrue()
+        *assertFalse()
+        *assertRaises()
+
