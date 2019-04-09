@@ -114,6 +114,38 @@ def user(username):
     return render_template("user.html", user=user, posts=posts)
 
 
+@app.route(URLRoute.follow)
+@login_required
+def follow(username):
+    user = User.query.filter_by(username=username).first()
+    if user is None:
+        flash(f"User {username} was not found.")
+        return redirect(url_for(Action.index))
+    elif user is not None and current_user == user:
+        flash(f"You cannot follow yourself.")
+        return redirect(url_for(Action.user, username=username))
+    current_user.follow(user)
+    db.session.commit()
+    flash(f"You are now following {username}")
+    return redirect(url_for(Action.user, username=username))
+
+
+@app.route(URLRoute.unfollow)
+@login_required
+def unfollow(username):
+    user = User.query.filter_by(username=username).first()
+    if user is None:
+        flash(f"User {username} was not found.")
+        return redirect(url_for(Action.index))
+    elif user is not None and current_user == user:
+        flash(f"You cannot unfollow yourself.")
+        return redirect(url_for(Action.user, username=username))
+    current_user.unfollow(user)
+    db.session.commit()
+    flash(f"You unfollowed {username}")
+    return redirect(url_for(Action.user, username=username))
+
+
 # idea: build a class of urls and corresponding action names. Less fragile.
 # I would only have to change action names in class instead of strings in every route, redirect, or url_for() call
 

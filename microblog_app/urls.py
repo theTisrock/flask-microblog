@@ -30,5 +30,7 @@ class URLRoute():
     logout = "/logout"
     register = "/register"
     user = "/user/<username>"
+    follow = "/follow/<username>"
+    unfollow = "/unfollow/<username>"
 
 # end urls
