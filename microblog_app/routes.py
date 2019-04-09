@@ -40,8 +40,8 @@ def edit_profile():
 def index():
     user = User.query.filter_by(username=current_user.username).first()
     posts = posts = [
-        {'author': user, 'body': "Test blog #1"},
-        {'author': user, 'body': "Test blog #2"}
+        {'author': user, 'body': "This test data is hardcoded. It doesn't come from the db."},
+        {'author': user, 'body': "Neither does this one."}
     ]
     return render_template("index.html", title="Home", posts=posts)
 
@@ -108,8 +108,8 @@ def register():
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()  # returns either element or 404 response
     posts = [
-        {'author': user, 'body': "Test blog #1"},
-        {'author': user, 'body': "Test blog #2"}
+        { 'author': user, 'body': "This is a test blog. It doesn't come from the db" },
+        { 'author': user, 'body': "This one is the 2nd test blog. No db either."}
     ]
     return render_template("user.html", user=user, posts=posts)
 
@@ -118,16 +118,17 @@ def user(username):
 @login_required
 def follow(username):
     user = User.query.filter_by(username=username).first()
-    if user is None:
+    if user is None:  # if user is not found in db
         flash(f"User {username} was not found.")
         return redirect(url_for(Action.index))
-    elif user is not None and current_user == user:
+    elif user is not None and current_user == user:  # if user is found && the user is yourself
         flash(f"You cannot follow yourself.")
         return redirect(url_for(Action.user, username=username))
-    current_user.follow(user)
-    db.session.commit()
-    flash(f"You are now following {username}")
-    return redirect(url_for(Action.user, username=username))
+    else:  # valid user
+        current_user.follow(user)
+        db.session.commit()
+        flash(f"You are now following {username}")
+        return redirect(url_for(Action.user, username=username))
 
 
 @app.route(URLRoute.unfollow)
