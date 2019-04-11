@@ -8,9 +8,11 @@
                 <td>{{ post.author.username}} says ...<b>{{ post.body }}</b></td>
             </tr>
             <tr>
-                {% if current_user.is_following(post.author) %}
+                {% if current_user.username == post.author.username %} <!-- current users blog post should not allow following self -->
+                <td><p>me</p></td>
+                {% elif current_user.is_following(post.author) %}
                 <td><a href="{{ url_for('unfollow', username=post.author.username) }}">unfollow</a></td>
-                {% else %}
+                {% elif not current_user.is_following(post.author) %} <!-- explicit logic for readability -->
                 <td><a href="{{ url_for('follow', username=post.author.username) }}">follow</a></td>
                 {% endif %}
             </tr>
