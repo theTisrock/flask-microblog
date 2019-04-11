@@ -3,6 +3,21 @@
 {% block content %}
     <h1>Hi, {{ current_user.username }}!</h1>
 
+    {% if blog_form %}
+    <label for="submit-blogpost">new blog post:</label>
+    <form class="submit-blogpost" id="submit-blogpost" action="{{ url_for('index') }}" method="post">
+        {{ blog_form.hidden_tag() }}
+
+        {{ blog_form.post.label }}<br>
+        {{ blog_form.post(cols=32, rows=4) }}
+        {% for error in blog_form.post.errors %}
+            <span style="color: red"><p>{{ error }}</p></span>
+        {% endfor %}
+
+        {{ blog_form.submit }}
+    </form>
+    {% endif %}
+
 {% include "_allposts.html" %}
 {% endblock %}
 

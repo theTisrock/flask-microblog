@@ -1,5 +1,5 @@
 from microblog_app import app, db  # importing the Flask object called "app" in __init__.py
-from microblog_app.forms import LoginForm, RegistrationForm, EditProfileForm
+from microblog_app.forms import LoginForm, RegistrationForm, EditProfileForm, BlogPostForm
 from microblog_app.models import User, Post
 from microblog_app.urls import Action,URLRoute
 from flask import render_template, flash, redirect, url_for, request
@@ -34,16 +34,25 @@ def edit_profile():
 
 
 # index
-@app.route(URLRoute.home['root'])  # app decorators first
-@app.route(URLRoute.home['index'])
+@app.route(URLRoute.home['root'], methods=['GET', 'POST'])  # app decorators first
+@app.route(URLRoute.home['index'], methods=['GET', 'POST'])
 @login_required  # then login decorators
 def index():
+    form = BlogPostForm()
+
+    if form.validate_on_submit() and request.method == 'POST':
+        new_post = Post(body=form.post.data, author=current_user)
+        db.session.add(new_post)
+        db.session.commit()
+        flash("You're post is now live!")
+        return redirect(url_for(Action.index))
+
     user = User.query.filter_by(username=current_user.username).first()
     posts = posts = [
         {'author': user, 'body': "This test data is hardcoded. It doesn't come from the db."},
         {'author': user, 'body': "Neither does this one."}
     ]
-    return render_template("index.html", title="Home", posts=posts)
+    return render_template("index.html", title="Home", blog_form=form, posts=posts)
 
 
 # login
