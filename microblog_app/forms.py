@@ -50,4 +50,9 @@ class EditProfileForm(FlaskForm):
             if found_user is not None:
                 raise ValidationError("Please use a different username")
 
+
+class BlogPostForm(FlaskForm):
+    post = TextAreaField("...say something...", validators=[DataRequired(), Length(min=1, max=140, message="Hello")])
+    submit = SubmitField("publish live")
+
 # end forms

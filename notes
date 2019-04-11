@@ -300,8 +300,10 @@ FINISHING FUNCTIONALITY in Pagination Chapter ----------------------------------
         -make a route OR apply form to current page route.
 
     Note: It is considered bad practice to render a page in response to a post request. Instead, redirect!
-    WHY?
-        if the user hits 'refresh' in their browser, the post request will be resubmitted an additional time.
-        This forces a GET request as opposed to resubmitting POST.
 
-        if this best practice is not followed, then the post will likely create duplicate entry in the database.
+        WHY?
+
+            if the user hits 'refresh' in their browser, the post request will be resubmitted an additional time.
+            This forces a GET request as opposed to resubmitting POST.
+
+            if this best practice is not followed, then the post will likely create duplicate entry in the database.
