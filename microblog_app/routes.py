@@ -113,10 +113,7 @@ def register():
 @login_required
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()  # returns either element or 404 response
-    posts = [
-        { 'author': user, 'body': "This is a test blog. It doesn't come from the db" },
-        { 'author': user, 'body': "This one is the 2nd test blog. No db either."}
-    ]
+    posts = Post.get_posts(filter_attr="author", filter_arg=user.username)
     return render_template("user.html", user=user, posts=posts)
 
 
