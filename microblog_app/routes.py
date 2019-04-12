@@ -47,11 +47,8 @@ def index():
         flash("You're post is now live!")
         return redirect(url_for(Action.index))
 
-    user = User.query.filter_by(username=current_user.username).first()
-    posts = posts = [
-        {'author': user, 'body': "This test data is hardcoded. It doesn't come from the db."},
-        {'author': user, 'body': "Neither does this one."}
-    ]
+    posts = Post.get_posts()
+
     return render_template("index.html", title="Home", blog_form=form, posts=posts)
 
 

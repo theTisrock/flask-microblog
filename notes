@@ -294,10 +294,17 @@ UNIT TESTING: -----------------------------------------------------------
 
 FINISHING FUNCTIONALITY in Pagination Chapter ----------------------------------------------------------------------
 
-    Blog Posting Funcs
+    Blog Posting
+
+        *Create a new Blog Post
         -Add a form class to handle submission of blog posts
         -render the form in the page you wish to have users submit posts
         -make a route OR apply form to current page route.
+
+        *Displaying blog posts
+        -use the _posts.html template to render all kinds of post groupings (ex, for username or time-date)
+        -read posts from database
+        -use Post model???
 
     Note: It is considered bad practice to render a page in response to a post request. Instead, redirect!
 

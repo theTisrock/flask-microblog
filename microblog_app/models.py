@@ -78,6 +78,18 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))  # uses relationship
 
     def __repr__(self):
-        return f"<Post {self.body}>"
+        return f"<Post {self.body}, belongs to {self.user_id}>"
+
+    @staticmethod
+    def get_posts(filter_attr=None, filter_arg=None):
+        posts = None
+        if filter_attr is None:  # get all posts
+            posts = Post.query.all()
+        elif filter_attr == 'username':  # filter by username
+            posts = Post.query.filter_by(username=filter_arg).all()
+        elif filter_attr == "timestamp":
+            posts = Post.query.filter_by(timestamp=filter_arg).all()
+
+        return posts
 
 # end models
