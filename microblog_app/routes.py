@@ -33,6 +33,13 @@ def edit_profile():
     return render_template("edit_profile.html", title="Edit Profile", form=edit_profile_form)
 
 
+@app.route(URLRoute.explore)
+@login_required
+def explore():
+    posts = Post.get_posts()
+    return render_template("index.html", title="explore", blog_form=None, posts=posts)
+
+
 # index
 @app.route(URLRoute.home['root'], methods=['GET', 'POST'])  # app decorators first
 @app.route(URLRoute.home['index'], methods=['GET', 'POST'])
@@ -91,7 +98,7 @@ def register():
         return render_template("register.html", form=registration_form)  # display form if not logged in
     elif request.method == 'POST' and registration_form.validate_on_submit():
         # check that username, email are unique (don't exist in db yet)
-            # this is already done by flask-wtf in User model class, most likely when validate_on_submit() is called
+        # this is already done by flask-wtf in User model class, most likely when validate_on_submit() is called
         # if form data not unique, flash error to user and reload "register.html", be ambiguous for security
         # if form data unique, add user to database, inform them they have successfully registered
         # all checks specified in this comment block are taken care of by flask-wtf custome validate_field() methods
@@ -113,7 +120,7 @@ def register():
 @login_required
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()  # returns either element or 404 response
-    posts = Post.get_posts(filter_attr="author", filter_arg=user.username)
+    posts = Post.get_posts(filter_attr="user_id", filter_arg=user.id)
     return render_template("user.html", user=user, posts=posts)
 
 

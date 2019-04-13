@@ -85,8 +85,8 @@ class Post(db.Model):
         posts = None
         if filter_attr is None:  # get all posts
             posts = Post.query.all()
-        elif filter_attr == 'author':  # filter by username
-            posts = Post.query.filter_by(author=filter_arg).all()
+        elif filter_attr == 'user_id':  # filter by username
+            posts = Post.query.filter_by(user_id=filter_arg).all()
         elif filter_attr == 'timestamp':
             posts = Post.query.filter_by(timestamp=filter_arg).all()
 

@@ -306,6 +306,10 @@ FINISHING FUNCTIONALITY in Pagination Chapter ----------------------------------
         -read posts from database
         -use Post model???
 
+        *Adding "explore" mode
+        -removes the blog submission form from index when "/explore" is called in a request.
+        -create a route & require login
+
     Note: It is considered bad practice to render a page in response to a post request. Instead, redirect!
 
         WHY?

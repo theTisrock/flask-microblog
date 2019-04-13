@@ -5,15 +5,21 @@
         <table>
             <tr valign="top">
                 <td><img src="{{ post.author.pull_avatar(36) }}"></td>
-                <td>{{ post.author.username}} says ...<b>{{ post.body }}</b></td>
+                <td>
+                    <a href="{{ url_for('user', username=post.author.username) }}">
+                        {{ post.author.username }}
+                    </a>
+                    says ...
+                    <b>{{ post.body }}</b>
+                </td>
             </tr>
             <tr>
                 {% if current_user.username == post.author.username %} <!-- current users blog post should not allow following self -->
-                <td><p>me</p></td>
+                    <td><p>me</p></td>
                 {% elif current_user.is_following(post.author) %}
-                <td><a href="{{ url_for('unfollow', username=post.author.username) }}">unfollow</a></td>
+                    <td><a href="{{ url_for('unfollow', username=post.author.username) }}">unfollow</a></td>
                 {% elif not current_user.is_following(post.author) %} <!-- explicit logic for readability -->
-                <td><a href="{{ url_for('follow', username=post.author.username) }}">follow</a></td>
+                    <td><a href="{{ url_for('follow', username=post.author.username) }}">follow</a></td>
                 {% endif %}
             </tr>
         </table>
