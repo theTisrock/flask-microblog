@@ -8,7 +8,7 @@
             {{ form.username.label }} <br>
             {{ form.username(size=32) }} <br>
             {% for error in form.username.errors %}
-            <span style="color: red;">{{ error }}</span>
+            <span class="error-message">{{ error }}</span>
             {% endfor %}
         </p>
 
@@ -16,7 +16,7 @@
             {{ form.password.label }} <br>
             {{ form.password(size=32) }} <br>
             {% for error in form.password.errors %}
-            <span style="color: red;">{{ error }}</span>
+            <span class="error-message">{{ error }}</span>
             {% endfor %}
         </p>
         <p>
@@ -27,5 +27,5 @@
             {{ form.submit }}
         </p>
     </form>
-<div><p><a href="{{ url_for('register') }}">Join us!</a></p></div>
+<div><p>New to Microblog?<a href="{{ url_for('register') }}"> Join us! </a></p></div>
 {% endblock%}
