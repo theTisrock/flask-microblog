@@ -28,7 +28,7 @@ class Config(object):
     ADMINS = ['torok.chris@gmail.com']
 
     # posts
-    POSTS_PER_PAGE = 3
+    POSTS_PER_PAGE = 10
 
 
 # end config

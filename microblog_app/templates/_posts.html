@@ -10,7 +10,8 @@
                         {{ post.author.username }}
                     </a>
                     says ...
-                    <b>{{ post.body }}</b>
+                    <b>{{ post.body }}</b><br>
+                    {{ post.timestamp.date() }}
                 </td>
             </tr>
             <tr>
