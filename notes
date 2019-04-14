@@ -310,6 +310,17 @@ FINISHING FUNCTIONALITY in Pagination Chapter ----------------------------------
         -removes the blog submission form from index when "/explore" is called in a request.
         -create a route & require login
 
+        *Navigating pages of blog posts
+        The dbms & SQLAlchemy have pagination features and can therefore keep track of sets of results. We don't want
+        100 results per page. That's impractical. So we use the dbms to help manage that information along with SQLAlchemy.
+        -Use the pagination object to obtain the next or prev page: posts.next_num OR posts.prev_num. Pagination comes
+        with SQLAlchemy
+        -after obtaining the next and prev nums for pages, insert them into the query string via url_for('action', query_str=value)
+
+            I kept the pagination links of the post results within the _posts template. It would seem to be good practice
+            to keep them together with their functionality. That way anytime I call "include("_posts.html")", the navigation
+            functionality will be presented to the user automatically. I don't see a reason why I should not do it this way.
+
     Note: It is considered bad practice to render a page in response to a post request. Instead, redirect!
 
         WHY?

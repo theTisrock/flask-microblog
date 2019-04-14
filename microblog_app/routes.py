@@ -36,8 +36,14 @@ def edit_profile():
 @app.route(URLRoute.explore)
 @login_required
 def explore():
-    posts = Post.get_posts()
-    return render_template("index.html", title="explore", blog_form=None, posts=posts)
+    page = request.args.get('page', 1, type=int)
+    posts = Post.query.order_by(Post.timestamp.desc()).paginate(
+        page, app.config['POSTS_PER_PAGE'], False
+    )
+    next_page = url_for('explore', page=posts.next_num) if posts.has_next else None
+    prev_page = url_for('explore', page=posts.prev_num) if posts.has_prev else None
+    return render_template("index.html", title="explore", blog_form=None, posts=posts.items,
+                           next_page=next_page, prev_page=prev_page)
 
 
 # index
@@ -54,9 +60,17 @@ def index():
         flash("You're post is now live!")
         return redirect(url_for(Action.index))
 
-    posts = Post.get_posts()
+    page = request.args.get('page', 1, type=int)  # access the query string. get('key', default, type)
 
-    return render_template("index.html", title="Home", blog_form=form, posts=posts)
+    posts = current_user.followed_posts().paginate(
+        page, app.config['POSTS_PER_PAGE'], False  # 3rd arg prevents 404 result
+    )
+
+    next_page = url_for('explore', page=posts.next_num) if posts.has_next else None
+    prev_page = url_for('explore', page=posts.prev_num) if posts.has_prev else None
+
+    return render_template("index.html", title="Home", blog_form=form, posts=posts.items,
+                           next_page=next_page, prev_page=prev_page)
 
 
 # login

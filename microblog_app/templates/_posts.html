@@ -25,6 +25,9 @@
         </table>
     {% endfor %}
 
+    {% if prev_page %}<a href="{{prev_page}}">previous</a>{% endif %}
+    {% if next_page %}<a href="{{next_page}}">next</a>{% endif %}
+
 {% else %}
     <p>No blog posts to show!</p>
 {% endif %}
