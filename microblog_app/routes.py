@@ -134,8 +134,14 @@ def register():
 @login_required
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()  # returns either element or 404 response
-    posts = Post.get_posts(filter_attr="user_id", filter_arg=user.id)
-    return render_template("user.html", user=user, posts=posts)
+    page = request.args.get('page', 1, type=int)
+    posts = user.posts.order_by(Post.timestamp.desc()).paginate(
+        page, app.config['POSTS_PER_PAGE'], False
+    )
+    next_page = url_for('explore', page=posts.next_num) if posts.has_next else None
+    prev_page = url_for('explore', page=posts.prev_num) if posts.has_prev else None
+    return render_template("user.html", user=user, posts=posts.items,
+                           next_page=next_page, prev_page=prev_page)
 
 
 @app.route(URLRoute.follow)

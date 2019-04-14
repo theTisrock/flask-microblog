@@ -321,6 +321,8 @@ FINISHING FUNCTIONALITY in Pagination Chapter ----------------------------------
             to keep them together with their functionality. That way anytime I call "include("_posts.html")", the navigation
             functionality will be presented to the user automatically. I don't see a reason why I should not do it this way.
 
+
+
     Note: It is considered bad practice to render a page in response to a post request. Instead, redirect!
 
         WHY?
