@@ -11,6 +11,8 @@ flask-migrate = "*"
 flask-login = "*"
 pytest = "*"
 "jinja2" = "*"
+pyjwt = "*"
+flask-mail = "*"
 
 [dev-packages]
 
