@@ -1,10 +1,11 @@
 from microblog_app import app, db  # importing the Flask object called "app" in __init__.py
-from microblog_app.forms import LoginForm, RegistrationForm, EditProfileForm, BlogPostForm
+from microblog_app.forms import LoginForm, RegistrationForm, EditProfileForm, BlogPostForm, PasswordResetForm
 from microblog_app.models import User, Post
 from microblog_app.urls import Action,URLRoute
 from flask import render_template, flash, redirect, url_for, request
 from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.urls import url_parse
+from microblog_app.email import send_password_reset_email
 from sqlite3.dbapi2 import IntegrityError
 
 
@@ -129,10 +130,20 @@ def register():
     return "Error in register action"  # debugging
 
 
-@app.route("/reset_password")
+@app.route("/reset_password", methods=['GET', 'POST'])
 def request_password_reset():
+    if current_user.is_authenticated:
+        return redirect(url_for(Action.index))
+    form = PasswordResetForm()
 
-    return render_template("")
+    if form.validate_on_submit():  # give feedback to user
+        user = User.query.filter_by(email=form.email.data).first()
+        if user is not None:
+            send_password_reset_email(user)
+        flash(f"If this user exists, an email will be sent to {form.email.data}!")
+        return redirect(url_for(Action.login))
+
+    return render_template("reset_password_request.html", title="Reset Password", form=form)
 
 
 # user

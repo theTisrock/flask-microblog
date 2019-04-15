@@ -55,4 +55,9 @@ class BlogPostForm(FlaskForm):
     post = TextAreaField("...say something...", validators=[DataRequired(), Length(min=1, max=140, message="Hello")])
     submit = SubmitField("publish live")
 
+
+class PasswordResetForm(FlaskForm):
+    email = StringField("email", validators=[DataRequired(), Email()])
+    submit = SubmitField("Reset Password")
+
 # end forms
