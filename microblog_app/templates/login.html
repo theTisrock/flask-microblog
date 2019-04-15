@@ -27,5 +27,6 @@
             {{ form.submit }}
         </p>
     </form>
+<div><p>Forgot Password?<a href="{{ url_for('request_password_reset') }}"> Reset your password </a></p></div>
 <div><p>New to Microblog?<a href="{{ url_for('register') }}"> Join us! </a></p></div>
 {% endblock%}
