@@ -129,6 +129,12 @@ def register():
     return "Error in register action"  # debugging
 
 
+@app.route("/reset_password")
+def request_password_reset():
+
+    return render_template("")
+
+
 # user
 @app.route(URLRoute.user)
 @login_required
