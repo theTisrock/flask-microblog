@@ -30,5 +30,7 @@ class URLRoute():
     register = "/register"
     user = "/user/<username>"
     unfollow = "/unfollow/<username>"
+    request_password_reset = "/request_password_reset"
+    reset_password = "/reset_password/<token>"
 
 # end urls

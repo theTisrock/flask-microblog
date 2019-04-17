@@ -1,5 +1,6 @@
 from microblog_app import app, db  # importing the Flask object called "app" in __init__.py
-from microblog_app.forms import LoginForm, RegistrationForm, EditProfileForm, BlogPostForm, PasswordResetForm
+from microblog_app.forms import LoginForm, RegistrationForm, EditProfileForm, BlogPostForm, PasswordResetRequestForm, \
+    ResetPasswordForm
 from microblog_app.models import User, Post
 from microblog_app.urls import Action,URLRoute
 from flask import render_template, flash, redirect, url_for, request
@@ -130,11 +131,11 @@ def register():
     return "Error in register action"  # debugging
 
 
-@app.route("/reset_password", methods=['GET', 'POST'])
+@app.route(URLRoute.request_password_reset, methods=['GET', 'POST'])
 def request_password_reset():
     if current_user.is_authenticated:
         return redirect(url_for(Action.index))
-    form = PasswordResetForm()
+    form = PasswordResetRequestForm()
 
     if form.validate_on_submit():  # give feedback to user
         user = User.query.filter_by(email=form.email.data).first()
@@ -144,6 +145,26 @@ def request_password_reset():
         return redirect(url_for(Action.login))
 
     return render_template("reset_password_request.html", title="Reset Password", form=form)
+
+
+@app.route(URLRoute.reset_password, methods=['GET', 'POST'])
+def reset_password(token):
+    if current_user.is_authenticated:
+        return redirect(url_for(Action.index))
+    user = User.verify_reset_password_token(token)  # gets a user or returns None
+    if not user:
+        flash("User not found!")
+        return redirect(Action.register)
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        user.set_password(form.password.data)
+        db.session.commit()
+        flash("Your password has been reset.")
+        return redirect(url_for(Action.login))
+    return render_template("reset_password.html", form=form)
+
+    # get
+
 
 
 # user

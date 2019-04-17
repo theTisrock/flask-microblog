@@ -70,16 +70,16 @@ class User(UserMixin, db.Model): # UserMixin makes model compatible with flask-l
 
     def get_reset_password_token(self, expires_in=600):
         return jwt.encode(
-            {'reset_password': self.id, 'exp': time() + expires_in},
+            {'reset_password': self.id, 'exp': time() + expires_in},  # user id as payload
             app.config['SECRET_KEY'], algorithm='HS256').decode('utf-8')
 
     @staticmethod
     def verify_reset_password_token(token):
         try:
-            id = jwt.decode(token, app.config['SECRET_KEY'],
-                            algorithms=['HS256'])['reset_password']
-        except:
-            return
+            decoded_token_dict = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
+            id = decoded_token_dict['reset_password']
+        except Exception as some_exception:
+            return None
         return User.query.get(id)
 
 

@@ -56,8 +56,14 @@ class BlogPostForm(FlaskForm):
     submit = SubmitField("publish live")
 
 
-class PasswordResetForm(FlaskForm):
+class PasswordResetRequestForm(FlaskForm):
     email = StringField("email", validators=[DataRequired(), Email()])
     submit = SubmitField("Reset Password")
+
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField("Password", validators=[DataRequired()])
+    confirm_password = PasswordField("Confirm Password", validators=[DataRequired(), EqualTo("password")])
+    submit = SubmitField("Save New Password")
 
 # end forms

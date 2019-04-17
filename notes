@@ -331,3 +331,12 @@ FINISHING FUNCTIONALITY in Pagination Chapter ----------------------------------
             This forces a GET request as opposed to resubmitting POST.
 
             if this best practice is not followed, then the post will likely create duplicate entry in the database.
+
+
+EMAIL SERVER DEBUGGING: --------------------------------------
+
+    1. export MAIL_PORT=[port number you want your app to use]
+    2. export MAIL_SERVER=localhost
+
+    -start the server: python -m smtpd -n -c DebuggingServer localhost:[port number your app is using]
+
