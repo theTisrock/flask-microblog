@@ -131,7 +131,7 @@ def register():
     return "Error in register action"  # debugging
 
 
-@app.route(URLRoute.request_password_reset, methods=['GET', 'POST'])
+@app.route(URLRoute.request_password_reset, methods=['GET', 'POST'])  # sends an email with a token
 def request_password_reset():
     if current_user.is_authenticated:
         return redirect(url_for(Action.index))
@@ -147,7 +147,7 @@ def request_password_reset():
     return render_template("reset_password_request.html", title="Reset Password", form=form)
 
 
-@app.route(URLRoute.reset_password, methods=['GET', 'POST'])
+@app.route(URLRoute.reset_password, methods=['GET', 'POST'])  # performs the actual password reset
 def reset_password(token):
     if current_user.is_authenticated:
         return redirect(url_for(Action.index))
