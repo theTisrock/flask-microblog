@@ -333,10 +333,33 @@ FINISHING FUNCTIONALITY in Pagination Chapter ----------------------------------
             if this best practice is not followed, then the post will likely create duplicate entry in the database.
 
 
-EMAIL SERVER DEBUGGING: --------------------------------------
+EMAIL FUNCTIONALITY:
 
-    1. export MAIL_PORT=[port number you want your app to use]
-    2. export MAIL_SERVER=localhost
+    EMAIL SERVER DEBUGGING with python's built-in SMTP mail server: --------------------------------------
 
-    -start the server: python -m smtpd -n -c DebuggingServer localhost:[port number your app is using]
+        1. export MAIL_PORT=[port number you want your app to use]
+        2. export MAIL_SERVER=localhost
 
+        -start the server: python -m smtpd -n -c DebuggingServer localhost:[port number your app is using]
+
+
+    ASYNCHRONOUS EMAIL PROCESS: ----------------------------------------------
+
+    Note: I use process and thread interchangeably, which isn't technically correct. This needs some more clarification
+    and/or correction. If this note is still here, I have not completed this step.
+
+    Why use an asynchronous process?
+        In the case of emails, they take about 2-3 seconds or more to complete the request of sending an email.
+        During that time, the application cannot listen to or response to new requests.
+        The solution is to allocate a separate CPU core or thread to perform this job. So we hand off the process, so
+        that the application can remain open to subsequent or any other requests.
+
+    What I've already learned about processes before this course:
+        Processes are managed by the operating system. Processes have permissions assigned by the operating system.
+        Processes can start other processes. A parent process can start a child process. That child process inherits all
+        of the permissions of its parent by default.
+
+        In java, the "main()" thread is the parent process. When you start another thread from that one, that would be a
+        child process of "main()".
+
+        This "should" work similarly in Python also (since it's controlled by the OS and not by the compiler.
