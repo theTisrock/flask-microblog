@@ -363,3 +363,18 @@ EMAIL FUNCTIONALITY:
         child process of "main()".
 
         This "should" work similarly in Python also (since it's controlled by the OS and not by the compiler.
+
+
+CSS FRAMEWORKS: ---------------------------------------------------------------------
+
+    BOOTSTRAP provides a framework of UI components built with html, css & javascript
+
+    https://getbootstrap.com/
+
+        Workflow with bootstrap -
+        1. Look at which component is needed in the example.
+        2. adapt it to your needs.
+
+
+
+

@@ -13,6 +13,7 @@ pytest = "*"
 "jinja2" = "*"
 pyjwt = "*"
 flask-mail = "*"
+flask-bootstrap = "*"
 
 [dev-packages]
 
