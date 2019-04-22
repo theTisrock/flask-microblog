@@ -1,8 +1,8 @@
 This text file is merely a blob of info I threw onto it when following Miguel Grinberg's Flask Tutorial.
 The text is **ROUGHLY** in order. Use this as a reference, not as a novel ;)
 
-D: = Dependency
-* D: flask-wtf: library used to create web forms.
+* Dependencies:
+        flask-wtf: library used to create web forms.
 
 To use this extension, the flask instance "app" object must be configured with a secret key.
 *SECURITY NOTE: Protects against Cross-Site Request Forgery. CSRF
@@ -26,6 +26,20 @@ urls are no longer hardcoded into views
 
 DATABASES: -------------------------------------------------
 
+* Dependencies:
+    flask-sqlalchemy: (Object Relational Mapper)
+        - supports SQLite, MySQL, and Postgres.
+        - enables an application to switch from any one of these DBMS systems without
+        making changes to the application
+        - I am using SQLite as a development-only database for this tutorial.
+        may also be a good production tool for gvlswing.com admin CMS since it will be small
+        scale and simple for now.
+
+    -flask-migrate: (Database Migration Framework) Alembic migration framework flask extension
+        - The migration framework is for development purposes. Because development often requires making
+        changes to the database schema, this framework helps to place those changes, which are tedious
+        when performed by hand in SQL
+
 Workflow:
             1) install dependencies: flask-sqlalchemy, flask-migrate
             2) setup database configuration URL in Config class; turn tracking on/off
@@ -45,19 +59,6 @@ Workflow:
 Models:
             *All classes inside of models.py inherit from the SQLAlchemy class called "Model"
                 ex, [SQLAlchemy instance].Model or "class MyModel(db.Model)"
-
-* D: flask-sqlalchemy: (Object Relational Mapper)
-    - supports SQLite, MySQL, and Postgres.
-    - enables an application to switch from any one of these DBMS systems without
-        making changes to the application
-    - I am using SQLite as a development-only database for this tutorial.
-        may also be a good production tool for gvlswing.com admin CMS since it will be small
-        scale and simple for now.
-
-* D: flask-migrate: (Database Migration Framework) Alembic migration framework flask extension
-    - The migration framework is for development purposes. Because development often requires making
-        changes to the database schema, this framework helps to place those changes, which are tedious
-        when performed by hand in SQL
 
 DB indexing - how to decide what to index?
 Ask "what attributes will be searched for or written to most frequently?" !!!
@@ -105,15 +106,13 @@ it more flexible for deployment. All that needs to be done is to set an environm
 
 SESSION / LOGIN----------------------------------------------------------
 
-    * PASSWORD HASHING--------------------------------------------------------
-    use werkzeug.security package methods: 1) generate_password_hash("phrase"), 2) check_password_hash(hash, "phrase")
-    Every time generate_password_hash() is called, even with the same parameters, a brand-new hash is generated!!!
 
+    Dependencies:
+            flask-login (Session Management dependency)
+            pipenv install flask-login
 
     DEFINITION: A user "session" is a private storage that is allocated for each client that connects to the application
 
-    D: flask-login (Session Management dependency)
-    pipenv install flask-login
     initialization: from flask_login import
                     object: LoginManager -> register tha app with the extension,
                     class: UserMixin -> enables a User model to become compatible with flask-login,
@@ -161,6 +160,11 @@ SESSION / LOGIN----------------------------------------------------------
         After the login is successful, you may redirect the user the to the page they wanted using this query string.
         BUT before you redirect, SECURITY make sure that the URL is only redirecting to our site and not someone else's, in case of
         attack use werkzeug.urls : url_parse()
+
+
+PASSWORD HASHING: --------------------------------------------------------
+use werkzeug.security package methods: 1) generate_password_hash("phrase"), 2) check_password_hash(hash, "phrase")
+Every time generate_password_hash() is called, even with the same parameters, a brand-new hash is generated!!!
 
 
 REGISTRATION: -------------------------------------------------------
@@ -250,6 +254,8 @@ if direction1 == 1 to 1 and direction2 == 1 to 1:
 
 UNIT TESTING: -----------------------------------------------------------
 
+    Dependencies: none OR pytest
+
     Python3 "unittest" library - https://docs.python.org/3/library/unittest.html
 
     4 Components involved ---
@@ -294,6 +300,8 @@ UNIT TESTING: -----------------------------------------------------------
 
 FINISHING FUNCTIONALITY in Pagination Chapter ----------------------------------------------------------------------
 
+    Dependencies: none
+
     Blog Posting
 
         *Create a new Blog Post
@@ -333,9 +341,9 @@ FINISHING FUNCTIONALITY in Pagination Chapter ----------------------------------
             if this best practice is not followed, then the post will likely create duplicate entry in the database.
 
 
-EMAIL FUNCTIONALITY:
+EMAIL FUNCTIONALITY: ----------------------------------------------------------------------------
 
-    EMAIL SERVER DEBUGGING with python's built-in SMTP mail server: --------------------------------------
+    EMAIL SERVER DEBUGGING with python's built-in SMTP mail server:
 
         1. export MAIL_PORT=[port number you want your app to use]
         2. export MAIL_SERVER=localhost
@@ -343,7 +351,7 @@ EMAIL FUNCTIONALITY:
         -start the server: python -m smtpd -n -c DebuggingServer localhost:[port number your app is using]
 
 
-    ASYNCHRONOUS EMAIL PROCESS: ----------------------------------------------
+    ASYNCHRONOUS (multi-tasking) EMAIL FUNCTIONALITY:
 
     Note: I use process and thread interchangeably, which isn't technically correct. This needs some more clarification
     and/or correction. If this note is still here, I have not completed this step.
@@ -362,10 +370,14 @@ EMAIL FUNCTIONALITY:
         In java, the "main()" thread is the parent process. When you start another thread from that one, that would be a
         child process of "main()".
 
-        This "should" work similarly in Python also (since it's controlled by the OS and not by the compiler.
+        This "should" work similarly in Python also (since it's controlled by the OS and not by the compiler/language.
 
 
 CSS FRAMEWORKS: ---------------------------------------------------------------------
+
+    Dependencies:
+
+            flask-bootstrap: pipenv install flask-bootstrap
 
     BOOTSTRAP provides a framework of UI components built with html, css & javascript
 
@@ -377,6 +389,10 @@ CSS FRAMEWORKS: ----------------------------------------------------------------
 
 
 DATES & TIMES: ----------------------------------------------------------------------
+
+    Dependencies:
+
+            flask-moment -> Moment.js
 
     In the event that the application, it's data, or both needs to physically move time zones, we must not let that
     change affect our historical data.
@@ -391,13 +407,15 @@ DATES & TIMES: -----------------------------------------------------------------
 
     Converting UTC to Local Time: ----------------------------------------------------
 
-    Solutions:  1. The server computes the time zone of each user remembering their time zone.
-                2. Send the utc time to the client. The client computes utc time to local time.
-                    *this option seems much more flexible
+    Solution options:  1. The server computes the time zone of each user remembering their time zone.
+                       2. Send the utc time to the client. The client computes utc time to local time.
+                            *this option seems much more flexible and much better for maintenance in the future.
 
 
     We have selected option 2, which uses Moment.js. Actually we do not use Moment.js directly. Instead, we use
     flask-moment which wraps Moment.js and makes it accessible to Jinja.
+
+    *don't forget to add the JavaScript library to the base template so flask-moment will work.
 
 
 

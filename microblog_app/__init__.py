@@ -31,7 +31,7 @@ mail = Mail(app)
 bootstrap = Bootstrap(app)
 
 # flask moment : Moment.js
-moment = Moment(app)
+moment = Moment(app)  # the JavaScript library must be added to the base template so moment.js will work
 
 # if running in w/o debugger AKA if running in production
 if not app.debug:
