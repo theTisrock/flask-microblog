@@ -89,7 +89,7 @@ def login():
             next_page = request.args.get('next') or Action.index  # landing page after login
             if url_parse(next_page).netloc != "":  # security if the domain has been modified
                 return redirect(url_parse('index'))
-            return redirect(url_for(next_page))
+            return redirect(url_for(Action.index, next=next_page))
         else:
             # invalid
             flash("Invalid username or password")
