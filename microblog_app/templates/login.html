@@ -1,32 +1,14 @@
 {% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
 
 {% block app_content %}
     <h1>Sign in</h1>
-    <form action="/login" method="post">
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.username.label }} <br>
-            {{ form.username(size=32) }} <br>
-            {% for error in form.username.errors %}
-            <span class="error-message">{{ error }}</span>
-            {% endfor %}
-        </p>
-
-        <p>
-            {{ form.password.label }} <br>
-            {{ form.password(size=32) }} <br>
-            {% for error in form.password.errors %}
-            <span class="error-message">{{ error }}</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.remember_me() }}
-            {{ form.remember_me.label }}
-        </p>
-        <p>
-            {{ form.submit }}
-        </p>
-    </form>
+    <div class="row">
+        <div class="col-md-4">
+            {{ wtf.quick_form(form) }}
+        </div>
+    </div>
 <div><p>Forgot Password?<a href="{{ url_for('request_password_reset') }}"> Reset your password </a></p></div>
 <div><p>New to Microblog?<a href="{{ url_for('register') }}"> Join us! </a></p></div>
 {% endblock%}

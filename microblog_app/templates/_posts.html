@@ -1,9 +1,9 @@
 <!-- all posts -->
 {% if posts %}
-
+    <table class="table table-hover">
     {% for post in posts %}
-        <table>
-            <tr valign="top">
+
+            <td valign="top">
                 <td><img src="{{ post.author.pull_avatar(36) }}"></td>
                 <td>
                     <a href="{{ url_for('user', username=post.author.username) }}">
@@ -13,18 +13,18 @@
                     <b>{{ post.body }}</b><br>
                     {{ post.timestamp.date() }}
                 </td>
-            </tr>
-            <tr>
+                <td>
                 {% if current_user.username == post.author.username %} <!-- current users blog post should not allow following self -->
-                    <td><p>me</p></td>
+                    <p>me</p>
                 {% elif current_user.is_following(post.author) %}
-                    <td><a href="{{ url_for('unfollow', username=post.author.username) }}">unfollow</a></td>
+                    <a href="{{ url_for('unfollow', username=post.author.username) }}">unfollow</a>
                 {% elif not current_user.is_following(post.author) %} <!-- explicit logic for readability -->
-                    <td><a href="{{ url_for('follow', username=post.author.username) }}">follow</a></td>
+                    <a href="{{ url_for('follow', username=post.author.username) }}">follow</a>
                 {% endif %}
+                </td>
             </tr>
-        </table>
     {% endfor %}
+    </table>
 
     {% if prev_page %}<a href="{{prev_page}}">previous</a>{% endif %}
     {% if next_page %}<a href="{{next_page}}">next</a>{% endif %}
