@@ -15,6 +15,7 @@ pyjwt = "*"
 flask-mail = "*"
 flask-bootstrap = "*"
 flask-moment = "*"
+flask-babel = "*"
 
 [dev-packages]
 

@@ -418,6 +418,23 @@ DATES & TIMES: -----------------------------------------------------------------
     *don't forget to add the JavaScript library to the base template so flask-moment will work.
 
 
+INTERNATIONAL LANGUAGE SUPPORT: ------------------------------------------------------
 
+    Dependencies:
+            flask-babel
+
+    Added a variable to Config called LANGUAGES = [] which holds a list of country language codes to be used in translation.
+    Initialized a Babel object and passed in the application instance to it.
+
+    How should we decide which language to serve to the client???
+    Solution: The browser can tell us the location and, thus, the language used by that location. It is found in the HTTP
+    header.
+
+    Flask has built-in support already for querying the browsers language preference:
+
+        # __init__.py
+        @babel.localeselector
+        def get_locale():
+            return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 

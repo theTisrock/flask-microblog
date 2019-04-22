@@ -1,7 +1,7 @@
 # __init__
 from logging.handlers import SMTPHandler, RotatingFileHandler
 import logging, os
-from flask import Flask
+from flask import Flask, request
 from config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -9,6 +9,7 @@ from flask_login import LoginManager
 from flask_mail import Mail
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
+from flask_babel import Babel, lazy_gettext as _l
 
 app = Flask(__name__)  # using __name__ enables python to locate other files in this directory.
 
@@ -32,6 +33,9 @@ bootstrap = Bootstrap(app)
 
 # flask moment : Moment.js
 moment = Moment(app)  # the JavaScript library must be added to the base template so moment.js will work
+
+# flask babel
+babel = Babel(app)
 
 # if running in w/o debugger AKA if running in production
 if not app.debug:
@@ -63,6 +67,13 @@ if not app.debug:
 
     app.logger.setLevel(logging.INFO)
     app.logger.info('Microblog startup')
+
+
+# language support
+@babel.localeselector  # extension
+def get_locale():
+    return request.accept_languages.best_match(app.config['LANGUAGES'])  # internal flask
+
 
 from microblog_app import routes, models, errors
 
