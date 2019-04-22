@@ -11,7 +11,7 @@
                     </a>
                     says ...
                     <b>{{ post.body }}</b><br>
-                    {{ post.timestamp.date() }}
+                    posted {{ moment(post.timestamp.date()).fromNow() }}
                 </td>
                 <td>
                 {% if current_user.username == post.author.username %} <!-- current users blog post should not allow following self -->

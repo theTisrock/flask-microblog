@@ -16,7 +16,13 @@
         <td>
             <h1>User: {{ user.username }}</h1>
             <p>{% if current_user != user and user.is_following(current_user) %} (follows you) {% endif %}</p>
-            <br><p>last seen: {% if user.last_visited %} {{ user.last_visited }} {% else %} no info {% endif %}</p>
+            <br>
+            <p>last seen:
+                {% if user.last_visited %}
+                    {{ moment(user.last_visited).format('LLL') }}
+                {% else %}
+                    no info
+                {% endif %}</p>
             <br><p>followed by: {{ user.followers.count() }}, follows: {{ user.followed.count()}}</p>
         </td>
     </tr>
