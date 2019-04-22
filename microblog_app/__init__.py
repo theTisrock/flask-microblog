@@ -8,16 +8,30 @@ from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_mail import Mail
 from flask_bootstrap import Bootstrap
+from flask_moment import Moment
 
 app = Flask(__name__)  # using __name__ enables python to locate other files in this directory.
 
-app.config.from_object(Config)
+# INSTANTIATIONS & CONFIGURATIONS: -------------------------------------------------
+
+app.config.from_object(Config)  # load configurations
+
+# database & migrations
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+
+# flask login
 login = LoginManager(app)
 login.login_view = 'login'
+
+# flask mail
 mail = Mail(app)
+
+# flask bootstrap
 bootstrap = Bootstrap(app)
+
+# flask moment : Moment.js
+moment = Moment(app)
 
 # if running in w/o debugger AKA if running in production
 if not app.debug:
