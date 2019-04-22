@@ -376,5 +376,30 @@ CSS FRAMEWORKS: ----------------------------------------------------------------
         2. adapt it to your needs.
 
 
+DATES & TIMES: ----------------------------------------------------------------------
+
+    In the event that the application, it's data, or both needs to physically move time zones, we must not let that
+    change affect our historical data.
+
+    1. If we use, python's datetime.now(), it will give us our local time.
+    2. If we use, python's datetime.utcnow(), it uses utc time universally.
+
+    Option 2 allows for keeping dates and times consistent if we have to move the application server.
+
+    *BUT ..... what about a users expectations??? They expect times to be displayed LOCALLY. So in order to meet their
+    expectations, we must convert back to their local time.
+
+    Converting UTC to Local Time: ----------------------------------------------------
+
+    Solutions:  1. The server computes the time zone of each user remembering their time zone.
+                2. Send the utc time to the client. The client computes utc time to local time.
+                    *this option seems much more flexible
+
+
+    We have selected option 2, which uses Moment.js. Actually we do not use Moment.js directly. Instead, we use
+    flask-moment which wraps Moment.js and makes it accessible to Jinja.
+
+
+
 
 
