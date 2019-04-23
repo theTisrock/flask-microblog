@@ -5,40 +5,41 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, EqualTo, Email, ValidationError, Length
 from microblog_app.models import User, Post
+from flask_babel import _, lazy_gettext as _l
 
 
 class LoginForm(FlaskForm):
     # more than one validator can be assigned to a field in a list
     # username = StringField("label", validators=[] )
-    username = StringField("Username", validators=[DataRequired()])
-    password = PasswordField("Password", validators=[DataRequired()])
-    remember_me = BooleanField("Remember Me")
-    submit = SubmitField("Submit")
+    username = StringField(_l("Username"), validators=[DataRequired()])
+    password = PasswordField(_l("Password"), validators=[DataRequired()])
+    remember_me = BooleanField(_l("Remember Me"))
+    submit = SubmitField(_("Submit"))
 
 
 class RegistrationForm(FlaskForm):
-    username = StringField("Username", validators=[DataRequired()])
-    email = StringField("Email", validators=[DataRequired(), Email(), Length(min=5, max=120)])
-    password = PasswordField("Password", validators=[DataRequired()])
-    confirm_password = PasswordField("Confirm Password", validators=[DataRequired(), EqualTo("password")])
-    submit = SubmitField("Register")
+    username = StringField(_l("Username"), validators=[DataRequired()])
+    email = StringField(_l("Email"), validators=[DataRequired(), Email(), Length(min=5, max=120)])
+    password = PasswordField(_l("Password"), validators=[DataRequired()])
+    confirm_password = PasswordField(_l("Confirm Password"), validators=[DataRequired(), EqualTo("password")])
+    submit = SubmitField(_("Register"))
 
     # custom validators passed to framework: validate_field(self, field_object)
     def validate_username(self, username):  # if that user does not exist, its valid. user must be unique.
         found_user = User.query.filter_by(username=username.data).first()
         if found_user:
-            raise ValidationError("Please use a different username.")
+            raise ValidationError(_l("Please use a different username."))
 
     def validate_email(self, email):
         found_email = User.query.filter_by(email=email.data).first()
         if found_email:
-            raise ValidationError("Please use a different email.")
+            raise ValidationError(_l("Please use a different email."))
 
 
 class EditProfileForm(FlaskForm):
-    username = StringField("Username", validators=[DataRequired()])
-    about_me = TextAreaField("About Me", validators=[Length(min=0, max=140)])
-    submit = SubmitField("Save Changes")
+    username = StringField(_l("Username"), validators=[DataRequired()])
+    about_me = TextAreaField(_l("About Me"), validators=[Length(min=0, max=140)])
+    submit = SubmitField(_("Save Changes"))
 
     def __init__(self, original_username, *args, **kwargs):
         super(EditProfileForm, self).__init__(*args, **kwargs)
@@ -48,22 +49,22 @@ class EditProfileForm(FlaskForm):
         if username.data != self.original_username:
             found_user = User.query.filter_by(username=username.data).first()
             if found_user is not None:
-                raise ValidationError("Please use a different username")
+                raise ValidationError(_l("Please use a different username"))
 
 
 class BlogPostForm(FlaskForm):
-    post = TextAreaField("...say something...", validators=[DataRequired(), Length(min=1, max=140, message="Hello")])
-    submit = SubmitField("publish live")
+    post = TextAreaField(_l("...say something..."), validators=[DataRequired(), Length(min=1, max=140, message="Hello")])
+    submit = SubmitField(_("publish live"))
 
 
 class PasswordResetRequestForm(FlaskForm):
-    email = StringField("email", validators=[DataRequired(), Email()])
-    submit = SubmitField("Reset Password")
+    email = StringField(_l("email"), validators=[DataRequired(), Email()])
+    submit = SubmitField(_("Reset Password"))
 
 
 class ResetPasswordForm(FlaskForm):
-    password = PasswordField("Password", validators=[DataRequired()])
-    confirm_password = PasswordField("Confirm Password", validators=[DataRequired(), EqualTo("password")])
-    submit = SubmitField("Save New Password")
+    password = PasswordField(_l("Password"), validators=[DataRequired()])
+    confirm_password = PasswordField(_l("Confirm Password"), validators=[DataRequired(), EqualTo("password")])
+    submit = SubmitField(_("Save New Password"))
 
 # end forms

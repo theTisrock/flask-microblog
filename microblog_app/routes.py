@@ -5,6 +5,7 @@ from microblog_app.models import User, Post
 from microblog_app.urls import Action,URLRoute
 from flask import render_template, flash, redirect, url_for, request
 from flask_login import login_user, current_user, logout_user, login_required
+from flask_babel import _, get_locale
 from werkzeug.urls import url_parse
 from microblog_app.email import send_password_reset_email
 from sqlite3.dbapi2 import IntegrityError
@@ -26,7 +27,7 @@ def edit_profile():
             current_user.username = edit_profile_form.username.data
             current_user.about_me = edit_profile_form.about_me.data
             db.session.commit()
-            flash(f"Saved changes to \"About Me\" section for {current_user.username}")
+            flash(_(f"Saved changes to \"About Me\" section for {current_user.username}"))
 
     elif request.method == 'GET':  # pre-populate current state of 'About me' section
         edit_profile_form.username.data = current_user.username
@@ -38,7 +39,7 @@ def edit_profile():
 @app.route(URLRoute.explore)
 @login_required
 def explore():
-    page = request.args.get('page', 1, type=int)
+    page = request.args.get(_('page'), 1, type=int)
     posts = Post.query.order_by(Post.timestamp.desc()).paginate(
         page, app.config['POSTS_PER_PAGE'], False
     )
@@ -59,7 +60,7 @@ def index():
         new_post = Post(body=form.post.data, author=current_user)
         db.session.add(new_post)
         db.session.commit()
-        flash("You're post is now live!")
+        flash(_("You're post is now live!"))
         return redirect(url_for(Action.index))
 
     page = request.args.get('page', 1, type=int)  # access the query string. get('key', default, type)
@@ -92,7 +93,7 @@ def login():
             return redirect(url_for(Action.index, next=next_page))
         else:
             # invalid
-            flash("Invalid username or password")
+            flash(_("Invalid username or password"))
             return redirect(url_for(Action.login))
     return render_template("login.html", title="Login", form=form)
 
@@ -123,10 +124,10 @@ def register():
         new_user.set_password(registration_form.password.data)
         db.session.add(new_user)
         db.session.commit()
-        flash(f"Registration success! Welcome {new_user.username}")
+        flash(_(f"Registration success! Welcome {new_user.username}"))
         return redirect(url_for(Action.login))
     elif not registration_form.validate_on_submit() and request.method == 'POST':
-        flash("Registration failed.")
+        flash(_("Registration failed."))
         return render_template("register.html", form=registration_form)
     return "Error in register action"  # debugging
 
@@ -141,7 +142,7 @@ def request_password_reset():
         user = User.query.filter_by(email=form.email.data).first()
         if user is not None:
             send_password_reset_email(user)
-        flash(f"If this user exists, an email will be sent to {form.email.data}!")
+        flash(_(f"If this user exists, an email will be sent to {form.email.data}!"))
         return redirect(url_for(Action.login))
 
     return render_template("reset_password_request.html", title="Reset Password", form=form)
@@ -153,13 +154,13 @@ def reset_password(token):
         return redirect(url_for(Action.index))
     user = User.verify_reset_password_token(token)  # gets a user or returns None
     if not user:
-        flash("User not found!")
+        flash(_("User not found!"))
         return redirect(Action.register)
     form = ResetPasswordForm()
     if form.validate_on_submit():
         user.set_password(form.password.data)
         db.session.commit()
-        flash("Your password has been reset.")
+        flash(_("Your password has been reset."))
         return redirect(url_for(Action.login))
     return render_template("reset_password.html", form=form)
 
@@ -187,15 +188,15 @@ def user(username):
 def follow(username):
     user = User.query.filter_by(username=username).first()
     if user is None:  # if user is not found in db
-        flash(f"User {username} was not found.")
+        flash(_(f"User {username} was not found."))
         return redirect(url_for(Action.index))
     elif user is not None and current_user == user:  # if user is found && the user is yourself
-        flash(f"You cannot follow yourself.")
+        flash(_(f"You cannot follow yourself."))
         return redirect(url_for(Action.user, username=username))
     else:  # valid user
         current_user.follow(user)
         db.session.commit()
-        flash(f"You are now following {username}")
+        flash(_(f"You are now following {username}"))
         return redirect(url_for(Action.user, username=username))
 
 
@@ -204,14 +205,14 @@ def follow(username):
 def unfollow(username):
     user = User.query.filter_by(username=username).first()
     if user is None:
-        flash(f"User {username} was not found.")
+        flash(_(f"User {username} was not found."))
         return redirect(url_for(Action.index))
     elif user is not None and current_user == user:
-        flash(f"You cannot unfollow yourself.")
+        flash(_(f"You cannot unfollow yourself."))
         return redirect(url_for(Action.user, username=username))
     current_user.unfollow(user)
     db.session.commit()
-    flash(f"You unfollowed {username}")
+    flash(_(f"You unfollowed {username}"))
     return redirect(url_for(Action.user, username=username))
 
 

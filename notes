@@ -437,4 +437,6 @@ INTERNATIONAL LANGUAGE SUPPORT: ------------------------------------------------
         def get_locale():
             return request.accept_languages.best_match(app.config['LANGUAGES'])
 
+    from flask_babel import _
 
+    _() from flask_babel is a method which rearranges the string in a sentence
