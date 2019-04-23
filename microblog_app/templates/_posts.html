@@ -9,17 +9,17 @@
                     <a href="{{ url_for('user', username=post.author.username) }}">
                         {{ post.author.username }}
                     </a>
-                    says ...
-                    <b>{{ post.body }}</b><br>
+                    {{ _('says') }} ...
+                    <b>{{ _(post.body) }}</b><br>
                     posted {{ moment(post.timestamp.date()).fromNow() }}
                 </td>
                 <td>
                 {% if current_user.username == post.author.username %} <!-- current users blog post should not allow following self -->
-                    <p>me</p>
+                    <p>{{ _('me') }}</p>
                 {% elif current_user.is_following(post.author) %}
-                    <a href="{{ url_for('unfollow', username=post.author.username) }}">unfollow</a>
+                    <a href="{{ url_for('unfollow', username=post.author.username) }}">{{ _('unfollow') }}</a>
                 {% elif not current_user.is_following(post.author) %} <!-- explicit logic for readability -->
-                    <a href="{{ url_for('follow', username=post.author.username) }}">follow</a>
+                    <a href="{{ url_for('follow', username=post.author.username) }}">{{ _('follow') }}</a>
                 {% endif %}
                 </td>
             </tr>
@@ -30,17 +30,17 @@
         <ul class="pager">
             <li class="previous {% if not prev_page %} disabled {% endif %}">
                 <a href="{{ prev_page or '#' }}">
-                    <span aria-hidden="true">&larr;</span>Newer posts
+                    <span aria-hidden="true">&larr;</span>{{ _('Newer posts') }}
                 </a>
             </li>
             <li class="next {% if not prev_page %} disabled {% endif %}">
                 <a href="{{ next_page or '#' }}">
-                    Older posts<span aria-hidden="true">&rarr;</span>
+                    {{ _('Older posts') }}<span aria-hidden="true">&rarr;</span>
                 </a>
             </li>
         </ul>
     </nav>
 
 {% else %}
-    <p>No blog posts to show!</p>
+    <p>{{ _('No blog posts to show!') }}</p>
 {% endif %}

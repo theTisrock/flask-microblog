@@ -14,7 +14,7 @@ class LoginForm(FlaskForm):
     username = StringField(_l("Username"), validators=[DataRequired()])
     password = PasswordField(_l("Password"), validators=[DataRequired()])
     remember_me = BooleanField(_l("Remember Me"))
-    submit = SubmitField(_("Submit"))
+    submit = SubmitField(_l("Submit"))
 
 
 class RegistrationForm(FlaskForm):
@@ -22,24 +22,25 @@ class RegistrationForm(FlaskForm):
     email = StringField(_l("Email"), validators=[DataRequired(), Email(), Length(min=5, max=120)])
     password = PasswordField(_l("Password"), validators=[DataRequired()])
     confirm_password = PasswordField(_l("Confirm Password"), validators=[DataRequired(), EqualTo("password")])
-    submit = SubmitField(_("Register"))
+    submit = SubmitField(_l("Register"))
 
     # custom validators passed to framework: validate_field(self, field_object)
+    # these are called at request time, not at module parse time
     def validate_username(self, username):  # if that user does not exist, its valid. user must be unique.
         found_user = User.query.filter_by(username=username.data).first()
         if found_user:
-            raise ValidationError(_l("Please use a different username."))
+            raise ValidationError(_("Please use a different username."))
 
     def validate_email(self, email):
         found_email = User.query.filter_by(email=email.data).first()
         if found_email:
-            raise ValidationError(_l("Please use a different email."))
+            raise ValidationError(_("Please use a different email."))
 
 
 class EditProfileForm(FlaskForm):
     username = StringField(_l("Username"), validators=[DataRequired()])
     about_me = TextAreaField(_l("About Me"), validators=[Length(min=0, max=140)])
-    submit = SubmitField(_("Save Changes"))
+    submit = SubmitField(_l("Save Changes"))
 
     def __init__(self, original_username, *args, **kwargs):
         super(EditProfileForm, self).__init__(*args, **kwargs)
@@ -49,22 +50,22 @@ class EditProfileForm(FlaskForm):
         if username.data != self.original_username:
             found_user = User.query.filter_by(username=username.data).first()
             if found_user is not None:
-                raise ValidationError(_l("Please use a different username"))
+                raise ValidationError(_("Please use a different username"))
 
 
 class BlogPostForm(FlaskForm):
     post = TextAreaField(_l("...say something..."), validators=[DataRequired(), Length(min=1, max=140, message="Hello")])
-    submit = SubmitField(_("publish live"))
+    submit = SubmitField(_l("publish live"))
 
 
 class PasswordResetRequestForm(FlaskForm):
     email = StringField(_l("email"), validators=[DataRequired(), Email()])
-    submit = SubmitField(_("Reset Password"))
+    submit = SubmitField(_l("Reset Password"))
 
 
 class ResetPasswordForm(FlaskForm):
     password = PasswordField(_l("Password"), validators=[DataRequired()])
     confirm_password = PasswordField(_l("Confirm Password"), validators=[DataRequired(), EqualTo("password")])
-    submit = SubmitField(_("Save New Password"))
+    submit = SubmitField(_l("Save New Password"))
 
 # end forms

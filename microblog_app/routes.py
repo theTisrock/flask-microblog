@@ -1,20 +1,20 @@
 from microblog_app import app, db  # importing the Flask object called "app" in __init__.py
+from microblog_app.urls import URLRoute, Action
+from flask import render_template, flash, redirect, url_for, request, g
+from flask_login import login_user, logout_user, current_user, login_required
+from werkzeug.urls import url_parse
+from flask_babel import _, get_locale
 from microblog_app.forms import LoginForm, RegistrationForm, EditProfileForm, BlogPostForm, PasswordResetRequestForm, \
     ResetPasswordForm
 from microblog_app.models import User, Post
-from microblog_app.urls import Action,URLRoute
-from flask import render_template, flash, redirect, url_for, request
-from flask_login import login_user, current_user, logout_user, login_required
-from flask_babel import _, get_locale
-from werkzeug.urls import url_parse
 from microblog_app.email import send_password_reset_email
-from sqlite3.dbapi2 import IntegrityError
 
 
 @app.before_request  # applies to all routes in the application
 def before_request():
     if current_user.is_authenticated:
         current_user.timestamp_on_request()
+    g.locale = str(get_locale())
 
 
 # edit profile
@@ -39,7 +39,7 @@ def edit_profile():
 @app.route(URLRoute.explore)
 @login_required
 def explore():
-    page = request.args.get(_('page'), 1, type=int)
+    page = request.args.get('page', 1, type=int)
     posts = Post.query.order_by(Post.timestamp.desc()).paginate(
         page, app.config['POSTS_PER_PAGE'], False
     )
@@ -72,7 +72,7 @@ def index():
     next_page = url_for('index', page=posts.next_num) if posts.has_next else None
     prev_page = url_for('index', page=posts.prev_num) if posts.has_prev else None
 
-    return render_template("index.html", title="Home", blog_form=form, posts=posts.items,
+    return render_template("index.html", title=_("Home"), blog_form=form, posts=posts.items,
                            next_page=next_page, prev_page=prev_page)
 
 
@@ -95,13 +95,14 @@ def login():
             # invalid
             flash(_("Invalid username or password"))
             return redirect(url_for(Action.login))
-    return render_template("login.html", title="Login", form=form)
+    return render_template("login.html", title=_("Login"), form=form)
 
 
 # logout
 @app.route(URLRoute.logout)
 def logout():
     logout_user()  # clear the user session
+    flash(_("Logged out"))
     return redirect(Action.login)
 
 
@@ -128,7 +129,7 @@ def register():
         return redirect(url_for(Action.login))
     elif not registration_form.validate_on_submit() and request.method == 'POST':
         flash(_("Registration failed."))
-        return render_template("register.html", form=registration_form)
+        return render_template("register.html", title=_("Register"), form=registration_form)
     return "Error in register action"  # debugging
 
 
@@ -145,7 +146,7 @@ def request_password_reset():
         flash(_(f"If this user exists, an email will be sent to {form.email.data}!"))
         return redirect(url_for(Action.login))
 
-    return render_template("reset_password_request.html", title="Reset Password", form=form)
+    return render_template("reset_password_request.html", title=_("Reset Password"), form=form)
 
 
 @app.route(URLRoute.reset_password, methods=['GET', 'POST'])  # performs the actual password reset
@@ -162,7 +163,7 @@ def reset_password(token):
         db.session.commit()
         flash(_("Your password has been reset."))
         return redirect(url_for(Action.login))
-    return render_template("reset_password.html", form=form)
+    return render_template("reset_password.html", title=_("Reset Your Password"), form=form)
 
     # get
 
@@ -179,7 +180,7 @@ def user(username):
     )
     next_page = url_for('explore', page=posts.next_num) if posts.has_next else None
     prev_page = url_for('explore', page=posts.prev_num) if posts.has_prev else None
-    return render_template("user.html", user=user, posts=posts.items,
+    return render_template("user.html", title=_(f"{user.username}'s profile"), user=user, posts=posts.items,
                            next_page=next_page, prev_page=prev_page)
 
 

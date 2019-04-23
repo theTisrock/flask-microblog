@@ -3,12 +3,26 @@
 
 
 {% block app_content %}
-    <h1>Sign in</h1>
+    <h1>{{ _('Sign in') }}</h1>
     <div class="row">
         <div class="col-md-4">
             {{ wtf.quick_form(form) }}
         </div>
     </div>
-<div><p>Forgot Password?<a href="{{ url_for('request_password_reset') }}"> Reset your password </a></p></div>
-<div><p>New to Microblog?<a href="{{ url_for('register') }}"> Join us! </a></p></div>
+    <div>
+    <p>
+        {{ _('Forgot Password?') }}
+        <a href="{{ url_for('request_password_reset') }}">
+            {{ _('Reset your password') }}
+        </a>
+    </p>
+    </div>
+    <div>
+    <p>
+        {{ _('New to Microblog?') }}
+        <a href="{{ url_for('register') }}">
+            {{ _('Join us!') }}
+        </a>
+    </p>
+    </div>
 {% endblock%}
