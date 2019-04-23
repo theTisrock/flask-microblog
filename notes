@@ -447,3 +447,15 @@ INTERNATIONAL LANGUAGE SUPPORT: ------------------------------------------------
     the "lazy_gettext" function delays it's decision making of how the text should read until the string
     is called ***after the module*** is parsed and loaded, unlike typical method calls.
     Use this for any string that requires translation apart from requests.
+
+    workflow:
+
+            1) install flask-babel
+            2) mark text for translation
+            3) extract translations from template into file:
+                command: pybabel extract -F babel.cfg -k _l -o messages.pot .
+
+FLASK VARIABLE "g": -------------------------------------------
+
+    g can be used and modified in before_request and subsequently can be used in activity during the request also.
+    It is also accessible in all the templates.

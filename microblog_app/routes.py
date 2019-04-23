@@ -14,7 +14,7 @@ from microblog_app.email import send_password_reset_email
 def before_request():
     if current_user.is_authenticated:
         current_user.timestamp_on_request()
-    g.locale = str(get_locale())
+    g.locale = str(get_locale())  # g is a static field that can hold data and is accessible between request points
 
 
 # edit profile
