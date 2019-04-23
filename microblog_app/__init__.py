@@ -70,9 +70,9 @@ if not app.debug:
 
 
 # language support
-@babel.localeselector  # extension
+@babel.localeselector  # babel
 def get_locale():
-    return request.accept_languages.best_match(app.config['LANGUAGES'])  # internal flask
+    return request.accept_languages.best_match(app.config['LANGUAGES'])  # flask
 
 
 from microblog_app import routes, models, errors

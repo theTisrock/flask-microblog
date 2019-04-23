@@ -440,3 +440,10 @@ INTERNATIONAL LANGUAGE SUPPORT: ------------------------------------------------
     from flask_babel import _
 
     _() from flask_babel is a method which rearranges the string in a sentence
+
+    the "_" function is used to translate an application's text at "request time" as expected like any typical method.
+    Use this function for any string in code that *executes during a request*. This includes flask-form validators.
+
+    the "lazy_gettext" function delays it's decision making of how the text should read until the string
+    is called ***after the module*** is parsed and loaded, unlike typical method calls.
+    Use this for any string that requires translation apart from requests.
