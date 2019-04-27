@@ -459,3 +459,10 @@ FLASK VARIABLE "g": -------------------------------------------
 
     g can be used and modified in before_request and subsequently can be used in activity during the request also.
     It is also accessible in all the templates.
+
+
+
+AJAX (Asynchronous Javascript And Xml): -----------------------------------------------------
+
+
+

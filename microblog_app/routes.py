@@ -8,6 +8,7 @@ from microblog_app.forms import LoginForm, RegistrationForm, EditProfileForm, Bl
     ResetPasswordForm
 from microblog_app.models import User, Post
 from microblog_app.email import send_password_reset_email
+from guess_language import guess_language
 
 
 @app.before_request  # applies to all routes in the application
@@ -57,7 +58,10 @@ def index():
     form = BlogPostForm()
 
     if form.validate_on_submit() and request.method == 'POST':
-        new_post = Post(body=form.post.data, author=current_user)
+        language = guess_language(form.post.data)
+        if language == 'UNKNOWN' or len(language) > 5:  # if lang isn't determined correctly
+            language = ''  # void the language
+        new_post = Post(body=form.post.data, author=current_user, language=language)
         db.session.add(new_post)
         db.session.commit()
         flash(_("You're post is now live!"))
