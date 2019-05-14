@@ -93,7 +93,7 @@ class Post(db.Model):
     body = db.Column(db.String(140))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)  # passing a function
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))  # uses relationship
-    language = db.Column(db.String(5))
+    language = db.Column(db.String(5))  # five chars for language identification
 
     def __repr__(self):
         return f"<Post {self.body}, belongs to {self.user_id}>"

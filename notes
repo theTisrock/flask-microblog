@@ -464,5 +464,34 @@ FLASK VARIABLE "g": -------------------------------------------
 
 AJAX (Asynchronous Javascript And Xml): -----------------------------------------------------
 
+       Translate button AJAX implementation: -----
+
+            User clicks translate button. Before this, the application knows the preferred language of the user. So it
+            knows A) the language of the post & B) the language of the user; now it can make a succesfull translate request.
+
+            For step A, if the blog post does not equal the language of the current_user, display the translate button.
+            A Javascript function will execute upon click of the translate button. The request response will look like..
+
+            Javascript function sends request to => Our Flask app;
+            Flask app makes a request for translation of text => 3rd party service/API;
+            3rd party service/API responds to our request .... then what???/
+
+            my guess...
+
+            3rd party service sends response => flask app;
+            flask app sends response => the client;
+            Javascript function catches this response and renders the translation;
+            END
+
+       Packages: pipenv install ...
+            guess-language_spirit
+            requests
+
+            STEP 1: *** Guess the language of the post. ***
+                    When a post is submitted, run "guess_language(str)".
+                    Once the language is guessed, store the language of the post in the database with the post.
+
+            STEP 2: *** Display a translate link. ***
+
 
 
