@@ -487,6 +487,9 @@ AJAX (Asynchronous Javascript And Xml): ----------------------------------------
             guess-language_spirit
             requests
 
+       MS TRANSLATOR SERVICE base URL:
+            https://api.microsofttranslator.com/v2/Ajax.svc/Translate?
+
             STEP 1: *** Guess the language of the post. ***
                     When a post is submitted, run "guess_language(str)".
                     Once the language is guessed, store the language of the post in the database with the post.
