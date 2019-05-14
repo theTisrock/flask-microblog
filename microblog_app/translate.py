@@ -7,6 +7,9 @@ from flask_babel import _
 
 def translate(text, source_language, destination_language):
     """
+    This function is the workhorse for the top level request in routes.
+    It makes a subsequent request to a third party and returns the results.
+
     :param text: comes from Javascript ajax request from client
     :param source_language: from
     :param destination_language: to
@@ -29,7 +32,7 @@ def translate(text, source_language, destination_language):
 
     if response.status_code != 200:
         return "There was a problem with the translation."
-    # return the translated text to the client's asynchronous javascript request
-    return json.loads(response.content.decode('utf-8-sig'))
+
+    return json.loads(response.content.decode('utf-8-sig'))  # return the translated text
 
 # end translate.py

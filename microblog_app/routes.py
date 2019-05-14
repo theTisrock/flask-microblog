@@ -1,6 +1,6 @@
-from microblog_app import app, db  # importing the Flask object called "app" in __init__.py
+from microblog_app import app, db, translate  # importing the Flask object called "app" in __init__.py
 from microblog_app.urls import URLRoute, Action
-from flask import render_template, flash, redirect, url_for, request, g
+from flask import render_template, flash, redirect, url_for, request, g, jsonify
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.urls import url_parse
 from flask_babel import _, get_locale
@@ -172,7 +172,6 @@ def reset_password(token):
     # get
 
 
-
 # user
 @app.route(URLRoute.user)
 @login_required
@@ -219,6 +218,18 @@ def unfollow(username):
     db.session.commit()
     flash(_(f"You unfollowed {username}"))
     return redirect(url_for(Action.user, username=username))
+
+
+@app.route("/translate", methods=['POST'])
+@login_required
+def translate_text():
+    # wtf not used here. Instead, the flask request object is used. No web form needed. Just use request.form dictionary
+    return jsonify({'text': translate(  # convert python to json
+        request.form['text'],
+        request.form['source_language'],
+        request.form['destination_language']
+    )
+                    })
 
 
 # idea: build a class of urls and corresponding action names. Less fragile.
