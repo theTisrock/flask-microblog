@@ -6,6 +6,12 @@ from flask_babel import _
 
 
 def translate(text, source_language, destination_language):
+    """
+    :param text: comes from Javascript ajax request from client
+    :param source_language: from
+    :param destination_language: to
+    :return:
+    """
 
     # check configuration
     if 'MS_TRANSLATOR_KEY' not in app.config or not app.config['MS_TRANSLATOR_KEY']:
@@ -23,7 +29,7 @@ def translate(text, source_language, destination_language):
 
     if response.status_code != 200:
         return "There was a problem with the translation."
+    # return the translated text to the client's asynchronous javascript request
     return json.loads(response.content.decode('utf-8-sig'))
-
 
 # end translate.py
