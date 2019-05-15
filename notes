@@ -527,6 +527,13 @@ AJAX (Asynchronous Javascript And Xml): ----------------------------------------
        MS TRANSLATOR SERVICE base URL:
             https://api.microsofttranslator.com/v2/Ajax.svc/Translate?
 
+       Things to remember:
+
+            The $ character is an accessor provided by jQuery in $('#post1').text() code.
+            jQuery is one dependency of the bootstrap dependency "flask-bootstrap"
+
+
+
 
 
 
