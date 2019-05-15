@@ -14,19 +14,22 @@
                     </a>
                     {% endset %}
 
-                    {{ _('%(username)s said %(when)s',
-                            username=user_link,
-                            when=moment(post.timestamp().fromNow())
+                    {{
+                    _(
+                            '%(username)s said %(when)s', username=user_link, when=moment( post.timestamp().fromNow())
+                    )
                     }}
                     <br/>
 
-                    <span id="post{{ post.id }}">{{ _(post.body) }}</span> <!-- id for ajax -->
+                    <span id="post{{ post.id }}">
+                        {{ _(post.body) }}
+                    </span> <!-- id for ajax -->
 
-                    {#
-                        if the post's language does not equal the client side language preference.
-                    #}
+
                     {% if post.language and post.language != g.locale %}
+                    {# if the post's language does not equal the client side language preference. #}
                     <br/><br/>
+
                     <span id="translation{{ post.id }}">
                         <a href="javascript:translate(
                                                         '#post{{ post.id }}',
@@ -34,11 +37,11 @@
                                                         '{{ post.language }}',
                                                         '{{ g.locale }}'
                                                     );">
-                        {{ _('Translate') }}
+                            {{ _('Translate') }}
                         </a>
                     </span>
+                    <!-- end post span -->
                     {% endif %}
-
                 </td>
 
                 <td>
