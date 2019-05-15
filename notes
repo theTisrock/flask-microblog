@@ -490,6 +490,8 @@ AJAX (Asynchronous Javascript And Xml): ----------------------------------------
             The below guide is more of a guide to API calls and not specifically about AJAX...
 
             STEP 1: *** Guess the language of the post. ***
+                    This is a pre-requisite for Microblog ONLY. It is one of the parameters required for making
+                    a successful request.
                     When a post is submitted, run "guess_language(str)".
                     Once the language is guessed, store the language of the post in the database with the post.
 
