@@ -487,14 +487,45 @@ AJAX (Asynchronous Javascript And Xml): ----------------------------------------
             guess-language_spirit
             requests
 
-       MS TRANSLATOR SERVICE base URL:
-            https://api.microsofttranslator.com/v2/Ajax.svc/Translate?
+            The below guide is more of a guide to API calls and not specifically about AJAX...
 
             STEP 1: *** Guess the language of the post. ***
                     When a post is submitted, run "guess_language(str)".
                     Once the language is guessed, store the language of the post in the database with the post.
 
-            STEP 2: *** Display a translate link. ***
+            STEP 2: *** Display the link that makes a request to the function. ***
+                    In this case, it is the translate function.
+                    The translate link triggers the Javascript to send a request to the "/translate" route,
+                    which calls the top level function.
+
+            STEP 3: *** Build the Javascript function ***
+
+            STEP 4: *** Build the route for the functionality ***
+                    This is the high level request that calls a subsequent request to a 3rd party API.
+
+            STEP 5: *** Build the request to the 3rd party; Handle the response ***
+                    This is the subsequent request referenced in step 3. In general, this relies on HTTP.
+                    This request requires a few things:
+                        THE REQUEST -
+                        A) An Authentication Token
+                        B) A known base url
+                        C) Parameters to send along with the request
+                        Note: All of the above you should be able to find from the documentation of the API provider.
+
+                        THE RESPONSE -
+                        D) Check that the response code is 200 - if it isn't return an error message
+                        E) Format the data according to response format. Usually there is documentation to support this
+                            from the service provider. Or you can also use a REST API client like Insomnia. Or you may
+                            be able to use your browser. It's important to note the structure of the response and
+                            traverse the data structure as necessary and grab what you need.
+            STEP 6) *** Return the response to the client. ***
+                    Handle the client side as necessary
+            END!
+
+       MS TRANSLATOR SERVICE base URL:
+            https://api.microsofttranslator.com/v2/Ajax.svc/Translate?
+
+
 
 
 
