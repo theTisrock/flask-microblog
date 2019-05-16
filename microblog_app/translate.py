@@ -2,7 +2,7 @@
 
 import requests, json
 from microblog_app import app
-from flask_babel import _
+# from flask_babel import _
 
 
 def translate(text, source_language, destination_language):
@@ -18,7 +18,7 @@ def translate(text, source_language, destination_language):
 
     # check configuration
     if 'MS_TRANSLATOR_KEY' not in app.config or not app.config['MS_TRANSLATOR_KEY']:
-        return _("The translation service is not configured.")
+        return "The translation service is not configured."
     # configuration okay, hit the API
 
     # assemble uri
@@ -31,7 +31,17 @@ def translate(text, source_language, destination_language):
     response = requests.get(uri, headers=auth)  # send request & capture response
 
     if response.status_code != 200:
-        return "There was a problem with the translation."
+
+        error_message = "Failed Translation "
+        bill_gates = "\nBill Gates wants a 2nd Porsche 959. Donate to the cause!"
+
+        if response.status_code == 403:
+            error_message += f"{response.status_code}: Out of call volume quota." + bill_gates
+        elif response.status_code == 429:
+            error_message += f"{response.status_code}: Rate limit exceeded." + bill_gates
+        else:
+            error_message += "There was an error with the 3rd party API request."
+        return error_message
 
     return json.loads(response.content.decode('utf-8-sig'))  # return the translated text
 

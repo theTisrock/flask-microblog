@@ -1,5 +1,6 @@
-from microblog_app import app, db, translate  # importing the Flask object called "app" in __init__.py
+from microblog_app import app, db  # importing the Flask object called "app" in __init__.py
 from microblog_app.urls import URLRoute, Action
+from microblog_app.translate import translate
 from flask import render_template, flash, redirect, url_for, request, g, jsonify
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.urls import url_parse
@@ -224,13 +225,12 @@ def unfollow(username):
 @login_required
 def translate_text():
     # wtf not used here. Instead, the flask request object is used. No web form needed. Just use request.form dictionary
-    return jsonify({'text': translate(  # convert python to json
-        request.form['text'],
-        request.form['source_language'],
-        request.form['destination_language']
-    )
-                    })
-
+    return jsonify({
+                    'text': translate(
+                    request.form['text'],
+                    request.form['source_language'],
+                    request.form['dest_language'])
+                })
 
 # idea: build a class of urls and corresponding action names. Less fragile.
 # I would only have to change action names in class instead of strings in every route, redirect, or url_for() call
