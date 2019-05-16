@@ -58,7 +58,7 @@ def create_app(config_class=Config):
     app.register_blueprint(user_auth_bp, url_prefix="/auth")
 
     # if running in w/o debugger AKA if running in production
-    if not app.debug:
+    if not app.debug and not app.testing:
 
         # error notifications by email
         if app.config['MAIL_SERVER']:

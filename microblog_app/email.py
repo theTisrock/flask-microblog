@@ -2,10 +2,9 @@
 # begin generic emails
 
 from threading import Thread
-from microblog_app import mail, app
+from microblog_app import mail
 from flask_mail import Message
-from flask import render_template
-from flask_babel import _
+from flask import current_app
 
 
 def send_async_email(app, msg):
@@ -16,6 +15,7 @@ def send_async_email(app, msg):
 def send_email(subject, sender, recipients, text_body):
     msg = Message(subject, sender=sender, recipients=recipients)
     msg.body = text_body
-    Thread(target=send_async_email, args=(app, msg)).start()  # separate thread to send emails
+    # separate thread to send emails
+    Thread(target=send_async_email, args=(current_app._get_current_object(), msg)).start()
 
 # end generic emails
