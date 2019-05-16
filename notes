@@ -574,7 +574,12 @@ APPLICATION STRUCTURE: ---------------------------------------------------------
         Inversion of Control says... we should not allow low level details to control top level instructions.
         This is especially important for large systems that require compiling, like in C based languages.
 
-        Note: you must change URLs in url_for when using blueprints.
+        APPLICATION FACTORY: ----------------------------------------------
+
+        Enables construction of custom configured application. The "app" instance initialization must be performed in
+        an application factory function. It will be called "create_app".
+
+
 
 
 

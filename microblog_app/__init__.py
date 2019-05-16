@@ -11,31 +11,51 @@ from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_babel import Babel, lazy_gettext as _l
 
-app = Flask(__name__)  # using __name__ enables python to locate other files in this directory.
+
 
 # INSTANTIATIONS & CONFIGURATIONS: -------------------------------------------------
 
-app.config.from_object(Config)  # load configurations
 
 # database & migrations
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
-
+db = SQLAlchemy()
+migrate = Migrate()
 # flask login
-login = LoginManager(app)
+login = LoginManager()
 login.login_view = 'login'
-
 # flask mail
-mail = Mail(app)
-
+mail = Mail()
 # flask bootstrap
-bootstrap = Bootstrap(app)
-
+bootstrap = Bootstrap()
 # flask moment : Moment.js
-moment = Moment(app)  # the JavaScript library must be added to the base template so moment.js will work
-
+moment = Moment()  # the JavaScript library must be added to the base template so moment.js will work
 # flask babel
-babel = Babel(app)
+babel = Babel()
+
+
+def create_app(config_class=Config):
+    # instantiate application instance
+    app = Flask(__name__)  # using __name__ enables python to locate other files in this directory.
+    # load configurations
+    app.config.from_object(Config)
+
+    # initialize app w/ extensions
+    db.init_app(app)
+    migrate.init_app(app, db)
+    login.init_app(app)
+    mail.init_app(app)
+    bootstrap.init_app(app)
+    moment.init_app(app)
+    babel.init_app(app)
+
+    # connect/register blueprints with app
+    from microblog_app.errors import bp as errors_bp
+    app.register_blueprint(errors_bp)
+
+    from microblog_app.main import bp as main_bp
+    app.register_blueprint(main_bp)
+
+    from microblog_app.user_auth import bp as user_auth_bp
+    app.register_blueprint(user_auth_bp)
 
 # if running in w/o debugger AKA if running in production
 if not app.debug:
