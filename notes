@@ -574,7 +574,7 @@ APPLICATION STRUCTURE: ---------------------------------------------------------
         Inversion of Control says... we should not allow low level details to control top level instructions.
         This is especially important for large systems that require compiling, like in C based languages.
 
-        AFTER THIS COMMIT, THE APPLICATION WILL BE RESTRUCTURED ONE BY ONE IN SUB-COMMITS
+        
 
 
 
