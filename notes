@@ -535,6 +535,46 @@ AJAX (Asynchronous Javascript And Xml): ----------------------------------------
 
 
 
+APPLICATION STRUCTURE: ------------------------------------------------------------------
+
+    Previous to this point in the tutorial, the structure (directory structure, separation of concerns) is appropriate
+    for small and medium sized applications. But there are two main limitations with the current structure.
+
+    1. We have positioned & grouped code based on high-level function.
+
+        Ex, routes.py contains routes top-level functionality for multiple concerns. The "/translate" route is in
+        the same module as "/login". The same module also includes code for resetting passwords.
+
+        If the code base grows beyond this point, it will become mixed and difficult to sort through and maintain.
+        Think about trying to debug potentially HUNDREDS of routes. Do you like scrolling down for miles just to find
+        one pathetic bug??? NOOOOO!!!!
+
+        One solution is to be able to separate the code into subsystems: login, logout, password reset, translate
+
+    2. Our application instance is at the global level.
+
+        We have do not have much ability to customize the configuration of the application before the instance is created.
+
+
+    BLUEPRINTING: -----------------------------------------------------------------------
+
+        A blueprint represents a subset of the application: auth (login, logout, password reset), errors, translations.
+
+        For each of the systems, you can create blueprint instance. The blueprint instance has many of the the features
+        of the Flask "app" instance, like registering routes.
+
+        Blueprints are INACTIVE. You may use them like an app instance, but they must later be registered with the app
+        instance.
+
+        Opinion: I've started to think of Blueprints as a tool to offer some sort of "Inversion of Control".
+        See SOLID design principles by Bob Martin.
+        https://www.youtube.com/watch?v=TMuno5RZNeE&t=3980s
+
+        Support for opinion:
+        Inversion of Control says... we should not allow low level details to control top level instructions.
+        This is especially important for large systems that require compiling, like in C based languages.
+
+        AFTER THIS COMMIT, THE APPLICATION WILL BE RESTRUCTURED ONE BY ONE IN SUB-COMMITS
 
 
 
