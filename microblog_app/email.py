@@ -1,3 +1,6 @@
+
+# begin generic emails
+
 from threading import Thread
 from microblog_app import mail, app
 from flask_mail import Message
@@ -15,11 +18,4 @@ def send_email(subject, sender, recipients, text_body):
     msg.body = text_body
     Thread(target=send_async_email, args=(app, msg)).start()  # separate thread to send emails
 
-
-def send_password_reset_email(user):
-    token = user.get_reset_password_token()
-    send_email(_('[Microblog] Reset Your Password'),
-               sender=app.config['ADMINS'][0],
-               recipients=[user.email],
-               text_body=render_template('email/reset_password.txt', user=user, token=token))
-
+# end generic emails
