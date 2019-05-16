@@ -1,11 +1,19 @@
-# forms
 
+# begin main forms
+
+# flask
+# extensions
 from flask_wtf import FlaskForm
-# flask-wtf uses wtforms as a dependency
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, EqualTo, Email, ValidationError, Length
-from microblog_app.models import User, Post
 from flask_babel import _, lazy_gettext as _l
+# my stuff
+from microblog_app.models import User, Post
+
+
+class BlogPostForm(FlaskForm):
+    post = TextAreaField(_l("...say something..."), validators=[DataRequired(), Length(min=1, max=140, message="Hello")])
+    submit = SubmitField(_l("publish live"))
 
 
 class EditProfileForm(FlaskForm):
@@ -23,10 +31,4 @@ class EditProfileForm(FlaskForm):
             if found_user is not None:
                 raise ValidationError(_("Please use a different username"))
 
-
-class BlogPostForm(FlaskForm):
-    post = TextAreaField(_l("...say something..."), validators=[DataRequired(), Length(min=1, max=140, message="Hello")])
-    submit = SubmitField(_l("publish live"))
-
-
-# end forms
+# end main forms
