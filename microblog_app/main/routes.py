@@ -14,7 +14,7 @@ from microblog_app.translate import translate
 from microblog_app.main import bp
 from microblog_app.main.forms import EditProfileForm, BlogPostForm
 from microblog_app.models import User, Post
-from microblog_app.urls import URLRoute
+from microblog_app.urls import URLRoute, Action
 
 
 @bp.before_request  # applies to all routes in the application

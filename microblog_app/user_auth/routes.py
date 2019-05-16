@@ -10,7 +10,7 @@ from flask_babel import _
 # my stuff
 from microblog_app import db
 from microblog_app.user_auth import bp
-from microblog_app.urls import URLRoute
+from microblog_app.urls import URLRoute, Action
 from microblog_app.models import User
 from microblog_app.user_auth.email import send_password_reset_email
 from microblog_app.user_auth.forms import LoginForm, RegistrationForm, PasswordResetRequestForm, ResetPasswordForm

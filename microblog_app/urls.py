@@ -7,13 +7,17 @@
 
 
 class Action():
-    edit_profile = 'edit_profile'
-    explore = 'explore'
-    index = 'index'
-    login = 'login'
-    logout = 'logout'
-    register = 'register'
-    user = 'user'
+    # main sub system
+    user = 'main.user'
+    edit_profile = 'main.edit_profile'
+    explore = 'main.explore'
+    index = 'main.index'
+
+    # auth sub system
+    login = 'user_auth.login'
+    logout = 'user_auth.logout'
+    register = 'user_auth.register'
+
 
 # URLRoute class - Static only. Holds route names.
 # Advantage: better seperation of concerns. easy to rename routes
