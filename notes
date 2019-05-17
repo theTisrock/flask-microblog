@@ -579,7 +579,12 @@ APPLICATION STRUCTURE: ---------------------------------------------------------
         Enables construction of custom configured application. The "app" instance initialization must be performed in
         an application factory function. It will be called "create_app".
 
+        RESTRUCTURED TESTS: ------------------------------------------
 
+        Restructured tests here. Need to revisit.
 
+        Environment Variables: ------------------------------------------
+
+        Load environment variables automatically.
 
 

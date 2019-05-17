@@ -1,5 +1,9 @@
 import os
+from dotenv import load_dotenv
+
 basedir = os.path.abspath(os.path.dirname(__file__))
+
+load_dotenv(os.path.join(basedir, '.env'))
 
 # configuration
 
@@ -14,10 +18,6 @@ class Config(object):
                               "sqlite:///" + os.path.join(basedir, "microblog.db")
     SQLALCHEMY_TRACK_MODIFICATIONS = False  # used to signal application whenever an object changes.
     # If not set to false, will alert you every time you start the server. Annoying!
-
-    # database environment variables
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or "sqlite:///" + os.path.join(basedir, 'microblog.db')
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # email server environment variables
     MAIL_SERVER = os.environ.get('MAIL_SERVER')

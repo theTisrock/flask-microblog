@@ -18,6 +18,7 @@ flask-moment = "*"
 flask-babel = "*"
 guess-language-spirit = "*"
 requests = "*"
+python-dotenv = "*"
 
 [dev-packages]
 

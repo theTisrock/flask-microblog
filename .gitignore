@@ -20,3 +20,4 @@ app/
 logs/
 
 *.env
+.env
