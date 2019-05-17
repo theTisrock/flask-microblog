@@ -583,8 +583,12 @@ APPLICATION STRUCTURE: ---------------------------------------------------------
 
         Restructured tests here. Need to revisit.
 
-        Environment Variables: ------------------------------------------
+        ENVIRONMENT VARIABLES: ------------------------------------------
 
-        Load environment variables automatically.
+        Load environment variables automatically in .env file
+
+        REQUIREMENTS FILE: ---------------------
+
+        I don't need this! I'm using pipenv!!! :)
 
 
