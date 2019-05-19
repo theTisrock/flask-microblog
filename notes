@@ -592,3 +592,21 @@ APPLICATION STRUCTURE: ---------------------------------------------------------
         I don't need this! I'm using pipenv!!! :)
 
 
+FULL TEXT SEARCH: --------------------------------------------------------
+
+        Scenario:
+
+            What if I wanted to search for certiain words or phrases within all blog posts?
+
+        Relational databases have non-relational extensions that allow for creating full-text index. Their implementations
+        are all different, so SQLAlchemy won't help us.
+
+        A few full-text search engines:
+
+        Elasticsearch, Apache Solar, Moosh, and more...
+
+        We are using... Elasticsearch. It is written in Java.
+
+
+
+
