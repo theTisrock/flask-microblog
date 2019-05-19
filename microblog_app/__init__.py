@@ -1,7 +1,7 @@
 # __init__
 from logging.handlers import SMTPHandler, RotatingFileHandler
 import logging, os
-from flask import Flask, request
+from flask import Flask, request, current_app
 from config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -10,6 +10,7 @@ from flask_mail import Mail
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_babel import Babel, lazy_gettext as _l
+from microblog_app.urls import Action
 
 
 
@@ -21,7 +22,7 @@ db = SQLAlchemy()
 migrate = Migrate()
 # flask login
 login = LoginManager()
-login.login_view = 'login'
+login.login_view = Action.login
 # flask mail
 mail = Mail()
 # flask bootstrap
@@ -87,13 +88,15 @@ def create_app(config_class=Config):
         app.logger.setLevel(logging.INFO)
         app.logger.info('Microblog startup')
 
+    return app
+
 
 # language support
 @babel.localeselector  # babel
 def get_locale():
-    return request.accept_languages.best_match(app.config['LANGUAGES'])  # flask
+    return request.accept_languages.best_match(current_app.config['LANGUAGES'])  # flask
 
 
-from microblog_app import routes, models, errors
+from microblog_app import models, errors
 
 # end __init__

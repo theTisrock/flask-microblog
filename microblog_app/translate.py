@@ -1,7 +1,7 @@
 # begin translate
 
 import requests, json
-from microblog_app import app
+from flask import current_app as app
 # from flask_babel import _
 
 

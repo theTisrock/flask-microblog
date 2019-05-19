@@ -2,7 +2,7 @@
 # begin main or generic routes
 
 # flask stuff
-from flask import render_template, request, flash, url_for, redirect, current_app, jsonify
+from flask import render_template, request, flash, url_for, redirect, current_app, jsonify, g
 # extensions
 from flask_login import current_user, login_required
 from flask_babel import get_locale
@@ -49,8 +49,8 @@ def explore():
     posts = Post.query.order_by(Post.timestamp.desc()).paginate(
         page, current_app.config['POSTS_PER_PAGE'], False
     )
-    next_page = url_for('explore', page=posts.next_num) if posts.has_next else None
-    prev_page = url_for('explore', page=posts.prev_num) if posts.has_prev else None
+    next_page = url_for(Action.explore, page=posts.next_num) if posts.has_next else None
+    prev_page = url_for(Action.explore, page=posts.prev_num) if posts.has_prev else None
     return render_template("index.html", title="explore", blog_form=None, posts=posts.items,
                            next_page=next_page, prev_page=prev_page)
 
@@ -78,8 +78,8 @@ def index():
         page, current_app.config['POSTS_PER_PAGE'], False  # 3rd arg prevents 404 result
     )
 
-    next_page = url_for('index', page=posts.next_num) if posts.has_next else None
-    prev_page = url_for('index', page=posts.prev_num) if posts.has_prev else None
+    next_page = url_for(Action.index, page=posts.next_num) if posts.has_next else None
+    prev_page = url_for(Action.index, page=posts.prev_num) if posts.has_prev else None
 
     return render_template("index.html", title=_("Home"), blog_form=form, posts=posts.items,
                            next_page=next_page, prev_page=prev_page)
