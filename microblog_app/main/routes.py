@@ -17,12 +17,14 @@ from microblog_app.models import User, Post
 from microblog_app.urls import URLRoute, Action
 
 
-@bp.app_context_processor()
+@bp.app_context_processor
 def load_context():
-    actions = Action()
+    actions = {
+        'user': Action.user, 'edit_profile': Action.edit_profile, 'explore': Action.explore,
+        'index': Action.index, 'login': Action.login, 'logout': Action.logout, 'register': Action.register
+    }
     return dict(
-        user=actions.user, edit_profile=actions.edit_profile, explore=actions.explore,
-        index=actions.index, login=actions.login, logout=actions.logout, register=actions.register
+        Actions=actions
     )
 
 
