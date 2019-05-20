@@ -41,7 +41,7 @@ def login():
 def logout():
     logout_user()  # clear the user session
     flash(_("Logged out"))
-    return redirect(Action.login)
+    return redirect(url_for(Action.login))
 
 
 @bp.route(URLRoute.register, methods=['GET', 'POST'])

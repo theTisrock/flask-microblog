@@ -56,7 +56,7 @@ def create_app(config_class=Config):
     app.register_blueprint(main_bp)
 
     from microblog_app.user_auth import bp as user_auth_bp
-    app.register_blueprint(user_auth_bp, url_prefix="/auth")
+    app.register_blueprint(user_auth_bp, url_prefix="/")
 
     # if running in w/o debugger AKA if running in production
     if not app.debug and not app.testing:
