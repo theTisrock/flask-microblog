@@ -12,11 +12,14 @@ class Action():
     edit_profile = 'main.edit_profile'
     explore = 'main.explore'
     index = 'main.index'
+    follow = 'main.follow'
+    unfollow = 'main.unfollow'
 
     # auth sub system
     login = 'user_auth.login'
     logout = 'user_auth.logout'
     register = 'user_auth.register'
+    request_password_reset = "user_auth.request_password_reset"
 
 
 # URLRoute class - Static only. Holds route names.

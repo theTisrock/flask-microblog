@@ -20,8 +20,16 @@ from microblog_app.urls import URLRoute, Action
 @bp.app_context_processor
 def load_context():
     actions = {
-        'user': Action.user, 'edit_profile': Action.edit_profile, 'explore': Action.explore,
-        'index': Action.index, 'login': Action.login, 'logout': Action.logout, 'register': Action.register
+        'user': Action.user,
+        'edit_profile': Action.edit_profile,
+        'explore': Action.explore,
+        'follow': Action.follow,
+        'unfollow': Action.unfollow,
+        'index': Action.index,
+        'login': Action.login,
+        'logout': Action.logout,
+        'register': Action.register,
+        'request_password_reset': Action.request_password_reset
     }
     return dict(
         Actions=actions

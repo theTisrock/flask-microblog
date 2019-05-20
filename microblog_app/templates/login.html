@@ -12,7 +12,7 @@
     <div>
     <p>
         {{ _('Forgot Password?') }}
-        <a href="{{ url_for('request_password_reset') }}">
+        <a href="{{ url_for(Actions.request_password_reset) }}">
             {{ _('Reset your password') }}
         </a>
     </p>
@@ -20,7 +20,7 @@
     <div>
     <p>
         {{ _('New to Microblog?') }}
-        <a href="{{ url_for('register') }}">
+        <a href="{{ url_for(Actions.register) }}">
             {{ _('Join us!') }}
         </a>
     </p>
