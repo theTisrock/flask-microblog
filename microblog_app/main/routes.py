@@ -17,6 +17,15 @@ from microblog_app.models import User, Post
 from microblog_app.urls import URLRoute, Action
 
 
+@bp.app_context_processor()
+def load_context():
+    actions = Action()
+    return dict(
+        user=actions.user, edit_profile=actions.edit_profile, explore=actions.explore,
+        index=actions.index, login=actions.login, logout=actions.logout, register=actions.register
+    )
+
+
 @bp.before_request  # applies to all routes in the application
 def before_request():
     if current_user.is_authenticated:

@@ -20,7 +20,7 @@ class Action():
 
 
 # URLRoute class - Static only. Holds route names.
-# Advantage: better seperation of concerns. easy to rename routes
+# Advantage: better separation of concerns. easy to rename routes
 # URLRoute.[route]
 
 

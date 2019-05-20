@@ -591,6 +591,16 @@ APPLICATION STRUCTURE: ---------------------------------------------------------
 
         I don't need this! I'm using pipenv!!! :)
 
+        After restructuring, all of my "url_for" calls in my templates broke. At this point I am glad I made a urls.py
+        module to store names of Actions (names of methods that decorated the app.route("") function).
+
+        I decided to pass the action names to all templates via @app.context_processor.
+        The problem was that I was using blueprints instead: @bp.context_processor. This is not the proper way.
+        You must use @bp.app_context_processor.
+
+        TAKEAWAY:
+        All the methods in the flask API that start with "app_*" are meant for use outside of the blueprint.
+
 
 FULL TEXT SEARCH: --------------------------------------------------------
 
