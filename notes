@@ -617,6 +617,16 @@ FULL TEXT SEARCH: --------------------------------------------------------
 
         We are using... Elasticsearch. It is written in Java.
 
+        Python client: pipenv install elasticsearch
+
+        Our blog post data will be written to both SQLite & Elasticsearch. That means if for some reason we must edit
+        a post, we must persist the changes in Elasticsearch and the database.
+
+        The versions of Elasticsearch vary greatly in terms of how to query & write text. Be sure to read the docs.
+        For instance, doc_type is used in < v5, _doc is used in v6, and it has been deprecated in version 7.
+
+        This affects how the search() method is constructed.
+
 
 
 

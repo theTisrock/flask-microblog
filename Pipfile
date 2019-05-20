@@ -10,7 +10,7 @@ flask-sqlalchemy = "*"
 flask-migrate = "*"
 flask-login = "*"
 pytest = "*"
-"jinja2" = "*"
+jinja2 = "*"
 pyjwt = "*"
 flask-mail = "*"
 flask-bootstrap = "*"
@@ -19,6 +19,7 @@ flask-babel = "*"
 guess-language-spirit = "*"
 requests = "*"
 python-dotenv = "*"
+elasticsearch = "*"
 
 [dev-packages]
 

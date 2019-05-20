@@ -31,8 +31,11 @@ class Config(object):
     LANGUAGES = ['en', 'es', 'de', 'hu']  # english, espanol, german, hungarian ... for babel
     MS_TRANSLATOR_KEY = os.environ.get('MS_TRANSLATOR_KEY')  # microsoft azure translations api key
 
-    # posts
+    # sqlalchemy posts
     POSTS_PER_PAGE = 10
+
+    # full text search
+    ELASTICSEARCH_URL = os.environ.get('ELASTICSEARCH_URL')
 
 
 # end config

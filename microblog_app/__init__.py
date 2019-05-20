@@ -1,8 +1,11 @@
 # __init__
+
+# python
 from logging.handlers import SMTPHandler, RotatingFileHandler
 import logging, os
+# flask
 from flask import Flask, request, current_app
-from config import Config
+# extensions & packages
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
@@ -10,8 +13,10 @@ from flask_mail import Mail
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_babel import Babel, lazy_gettext as _l
+from elasticsearch import Elasticsearch
+# my stuff
+from config import Config
 from microblog_app.urls import Action
-
 
 
 # INSTANTIATIONS & CONFIGURATIONS: -------------------------------------------------
@@ -31,6 +36,7 @@ bootstrap = Bootstrap()
 moment = Moment()  # the JavaScript library must be added to the base template so moment.js will work
 # flask babel
 babel = Babel()
+# elasticsearch
 
 
 def create_app(config_class=Config):
@@ -47,6 +53,7 @@ def create_app(config_class=Config):
     bootstrap.init_app(app)
     moment.init_app(app)
     babel.init_app(app)
+    app.elasticsearch = Elasticsearch([app.config['ELASTICSEARCH_URL']]) if app.config['ELASTICSEARCH_URL'] else None
 
     # connect/register blueprints with app
     from microblog_app.errors import bp as errors_bp
@@ -81,7 +88,10 @@ def create_app(config_class=Config):
         if not os.path.exists('logs'):
             os.mkdir('logs')
         file_handler = RotatingFileHandler('logs/microblog.log', maxBytes=10240, backupCount=10)
-        file_handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
+        file_handler.setFormatter(logging.Formatter('%(asctime)s '
+                                                    '%(levelname)s: '
+                                                    '%(message)s '
+                                                    '[in %(pathname)s:%(lineno)d]'))
         file_handler.setLevel(logging.INFO)
         app.logger.addHandler(file_handler)
 
