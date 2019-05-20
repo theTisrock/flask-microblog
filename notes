@@ -627,6 +627,9 @@ FULL TEXT SEARCH: --------------------------------------------------------
 
         This affects how the search() method is constructed.
 
+        SQLAlchemy triggered events: --------------------------------------------------
+
+
         Workflow:
                     1) build functionality to communicate with Elasticsearch via client.
                         A) write data

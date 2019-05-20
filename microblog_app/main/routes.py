@@ -12,7 +12,7 @@ from flask_babel import _
 from microblog_app import db
 from microblog_app.translate import translate
 from microblog_app.main import bp
-from microblog_app.main.forms import EditProfileForm, BlogPostForm
+from microblog_app.main.forms import EditProfileForm, BlogPostForm, SearchForm
 from microblog_app.models import User, Post
 from microblog_app.urls import URLRoute, Action
 
@@ -31,8 +31,11 @@ def load_context():
         'register': Action.register,
         'request_password_reset': Action.request_password_reset
     }
+    search_form = SearchForm  # testing: this gives a memory location
+    if current_user.is_authenticated:
+        search_form = SearchForm()  # testing: this constructs the form
     return dict(
-        Actions=actions
+        Actions=actions, search_form=search_form
     )
 
 
@@ -41,6 +44,12 @@ def before_request():
     if current_user.is_authenticated:
         current_user.timestamp_on_request()
     g.locale = str(get_locale())  # g is a static field that can hold data and is accessible between request points
+
+
+@bp.route("/search", methods=['GET'])
+def search():
+    # how do I validate the form without using g and is it too much work???
+    pass
 
 
 @bp.route(URLRoute.edit_profile, methods=['GET', 'POST'])  # edit profile

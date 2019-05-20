@@ -14,6 +14,7 @@ class Action():
     index = 'main.index'
     follow = 'main.follow'
     unfollow = 'main.unfollow'
+    search = 'main.search'
 
     # auth sub system
     login = 'user_auth.login'
