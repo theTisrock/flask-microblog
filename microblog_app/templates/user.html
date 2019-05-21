@@ -3,11 +3,11 @@
 {% block app_content %}
 
 {% if current_user == user %} <!-- this is the current_user page -->
-    <p><a href="{{ url_for(Actions.edit_profile) }}">{{ _('Edit Profile') }}</a></p>
+    <p><a href="{{ url_for(Action.edit_profile) }}">{{ _('Edit Profile') }}</a></p>
 {% elif current_user.is_following(user) %} <!-- current_user relationship to user passed in -->
-    <p><a href="{{ url_for(Actions.unfollow, username=user.username) }}">{{ _('unfollow') }}</a></p>
+    <p><a href="{{ url_for(Action.unfollow, username=user.username) }}">{{ _('unfollow') }}</a></p>
 {% elif not current_user.is_following(user) %} <!-- current_user relationship to user passed in -->
-    <p><a href="{{ url_for(Actions.follow, username=user.username) }}">{{ _('follow') }}</a></p>
+    <p><a href="{{ url_for(Action.follow, username=user.username) }}">{{ _('follow') }}</a></p>
 {% endif %}
 
 <table>

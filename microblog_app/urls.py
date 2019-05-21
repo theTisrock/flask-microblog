@@ -8,13 +8,13 @@
 
 class Action():
     # main sub system
+    search = 'main.search'
     user = 'main.user'
     edit_profile = 'main.edit_profile'
     explore = 'main.explore'
     index = 'main.index'
     follow = 'main.follow'
     unfollow = 'main.unfollow'
-    search = 'main.search'
 
     # auth sub system
     login = 'user_auth.login'

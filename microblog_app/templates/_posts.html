@@ -9,7 +9,7 @@
                 <td>
 
                     {% set user_link %}
-                    <a href="{{ url_for(Actions.user, username=post.author.username) }}">
+                    <a href="{{ url_for(Action.user, username=post.author.username) }}">
                         {{ post.author.username }}
                     </a>
                     {% endset %}
@@ -48,9 +48,9 @@
                 {% if current_user.username == post.author.username %} <!-- current users blog post should not allow following self -->
                     <p>{{ _('me') }}</p>
                 {% elif current_user.is_following(post.author) %}
-                    <a href="{{ url_for(Actions.unfollow, username=post.author.username) }}">{{ _('unfollow') }}</a>
+                    <a href="{{ url_for(Action.unfollow, username=post.author.username) }}">{{ _('unfollow') }}</a>
                 {% elif not current_user.is_following(post.author) %} <!-- explicit logic for readability -->
-                    <a href="{{ url_for(Actions.follow, username=post.author.username) }}">{{ _('follow') }}</a>
+                    <a href="{{ url_for(Action.follow, username=post.author.username) }}">{{ _('follow') }}</a>
                 {% endif %}
                 </td>
             </tr>

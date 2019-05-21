@@ -19,7 +19,8 @@ from microblog_app.urls import URLRoute, Action
 
 @bp.app_context_processor
 def load_context():
-    actions = {
+    action = {
+        'search': Action.search,
         'user': Action.user,
         'edit_profile': Action.edit_profile,
         'explore': Action.explore,
@@ -31,11 +32,11 @@ def load_context():
         'register': Action.register,
         'request_password_reset': Action.request_password_reset
     }
-    search_form = SearchForm  # testing: this gives a memory location
-    if current_user.is_authenticated:
-        search_form = SearchForm()  # testing: this constructs the form
+    search_form = SearchForm()
+    if current_user.is_anonymous:
+        search_form = None
     return dict(
-        Actions=actions, search_form=search_form
+        Action=action, search_form=search_form
     )
 
 
@@ -48,8 +49,8 @@ def before_request():
 
 @bp.route("/search", methods=['GET'])
 def search():
-    # how do I validate the form without using g and is it too much work???
-    pass
+    # how do I vasearch_form.q.label.textlidate the form without using g and is it too much work???
+    return "yay"
 
 
 @bp.route(URLRoute.edit_profile, methods=['GET', 'POST'])  # edit profile
