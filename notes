@@ -604,6 +604,8 @@ APPLICATION STRUCTURE: ---------------------------------------------------------
 
 FULL TEXT SEARCH: --------------------------------------------------------
 
+        Docs: https://elasticsearch-py.readthedocs.io/en/master/api.html
+
         Scenario:
 
             What if I wanted to search for certiain words or phrases within all blog posts?

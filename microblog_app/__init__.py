@@ -84,7 +84,7 @@ def create_app(config_class=Config):
             mail_handler.setLevel(logging.ERROR)
             app.logger.addHandler(mail_handler)
 
-    # error log
+        # error log
         if not os.path.exists('logs'):
             os.mkdir('logs')
         file_handler = RotatingFileHandler('logs/microblog.log', maxBytes=10240, backupCount=10)
