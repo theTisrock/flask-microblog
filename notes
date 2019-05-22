@@ -731,6 +731,12 @@ DEPLOYMENT: --------------------------------------------------------------------
                     Services & Environment -
                     [command]: sudo apt-get install mysql-server postfix supervisor nginx git
 
+
+                *About MySQL
+                    Remember to add & configure and application user for the database with limit access.
+                    Allow that user access to the application database only.
+                    Grant permissions, as few as possible.
+
                 *About Elasticsearch
                     Miguel does not install elasticsearch because of the large amount of memory it takes up.
                     But if the prod environment has the memory, you can install it now.
@@ -740,9 +746,77 @@ DEPLOYMENT: --------------------------------------------------------------------
                     A domain name must be setup.
                     You must create SPF & DKIM records in the DNS
 
+             INSTALLING THE APPLICATION: ------------------------------------------------------
 
+             1) Clone the git repository from source. ex, github
+             2) Create a virtual environment for the server. ex, venv or pipenv
+                venv: [command]: python3 -m venv [name of env]
+                pipenv: [command]: pipenv install - (this should also install dependencies of the project)
+             3) Activate the virtual environment.
+                venv: [command]: source  venv/bin/activate
+                pipenv: [command]: pipenv shell
+             4) Install project dependencies
+                pipenv install
+             5) Install server environment dependencies for project
+                pipenv install gunicorn pymysql
+             6) Create .env file to hold environment variables
+             7) Add environment variables to the .profile file.
+                [command]: echo "export FLASK_APP=microblog.py" >> ~/.profile
+                    ^appends the env variable to the end of the file.
 
+                Note: This is done so that every time the server restarts, you don't have to reload FLASK_APP
+                Takes affect the next time you reboot.
 
+             8) Apply database migrations to production database.
+             9) Setup application server (gunicorn) and app server monitor (supervisor)
+
+                Gunicorn:
+
+                [command]: gunicorn -b localhost:8000 -w 4 microblog:app
+                [program] -b [ip+port] -[w for workers] [# worker processes allocated] [module entry:app instance]
+
+                Supervisor:
+
+                edit the file: /etc/supervisor/conf.d/[your app name].conf as follows...
+
+                """...
+                [program:your app name]
+                command=path/to/your/virtualenv/bin/gunicorn -b localhost:port -w 4 microblog:app
+                directory=/home/ubuntu/top_level_dir
+                user=user
+                autostart=true
+                autorestart=true
+                stopasgroup=true
+                killasgroup=true
+                ..."""
+
+                Restart supervisor: [command]: sudo supervisorctl reload
+
+                Check to see supervisor is running. [command]: sudo supervisorctl status
+
+                10) Setup the webserver (nginx)
+
+                    NGINX: -----
+
+                    Provides efficient serving of static files
+                    Provides encryption (SSL)
+
+                    A) Make a certificate directory: mkdir certs
+                    B) Generate a certificate for SSL:
+[command]: openssl req -new -newkey rsa:4096 -days 365 -nodes -x509 -keyout certs/key.pem -out certs/cert.pem
+                    C) Create configuration for the application in NGINX
+                        -remove the default configuration. [command]: sudo rm /etc/nginx/sites-enabled/default
+                        -write the config file. [command]: sudo nano /etc/nginx/sites-enables/microblog
+                    D) Restart the nginx application server:
+                    [command]: sudo service nginx reload
+
+                    DONE!!!!! YOUR APP IS DEPLOYED
+
+             UPDATES: ---
+
+                    A) Stop the server
+                    B) Apply new source code, migrations
+                    C) Restart the server
 
 
         Heroku Deployment: -----
