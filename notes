@@ -641,5 +641,112 @@ FULL TEXT SEARCH: --------------------------------------------------------
                     2) Get the database reference information from the query functionality
 
 
+DEPLOYMENT: --------------------------------------------------------------------------------
+
+
+        (Ubuntu) Linux Deployment: ------
+
+            Traditional hosting has two options: 1) run locally in a virtual server or 2) rent a server
+
+            Accessing the server using SSH client. This is built into Linux called "openssh".
+
+            Authentication is accomplished either with a...
+             1) username and/or password or 2) a public-private key pair
+
+                If you get admin/root privileges, create another user account to A) make the server more secure and
+                B) to keep from using risky commands - like deleting system or application critical files
+
+                [command]: adduser --gecos "" chris
+                [abstracted]: adduser --gecos "" [name of user]
+
+                Give sudo privileges:
+                [command]: usermod -aG sudo ubuntu
+                [abstracted]: usermod [add group] [group name] [name of user]
+
+                Switch users in terminal
+                [command]: su [name of user]
+
+
+             Private-Public Keys: ---------------------------------------
+
+             Private keys are stored in the .ssh directory within the home directory.
+             Look for 2 files: 1) id_rsa (private key) and 2) id_rsa.pub (public key)
+
+             Create your own private/public key pair:
+
+                A) [command]: ssh-keygen
+                    Enter through all prompts for key to be stored in .ssh dir
+
+                B) copy contents of id_rsa.pub and put them in ~/.ssh/authorized_keys.
+                    Note: Be sure to append the key to the file and don't delete the pre-existing contents.
+
+             Securing the server: ---------------------------------------------------
+
+                You'll need to edit this file: /etc/ssh/sshd_config
+
+                NOTE:
+                Before doing any of this, make absolutely sure that you can log in via a preconfigured user account
+                with your private/public keys.
+
+                A) Disabling direct root access
+                    In the Authentication section, set PermitRootLogin, change the value to "no".
+                    "PermitRootLogin no"
+
+                    result: No users can login as root
+
+                B) Disabling password auth for all accounts
+                    set PasswordAuthentication to "no" also.
+                    "PasswordAuthentication no"
+
+                    result: No users can login with a password
+
+
+                C) Add a firewall
+                    First, start by disabling all connections, then select the ones you want enabled.
+
+                    [command]: sudo apt-get install ufw
+                        ufw starts with all accesses blocked.
+
+                    Open ports:
+
+                    [command]: sudo ufw allow ssh
+
+                    [command]: sudo ufw allow http  # allow http (port 80)
+
+                    [command]: sudo ufw allow 443/tcp  # allow https (port 443)
+
+                    Check to see that firewall runs on system startup:
+
+                    [command]: sudo ufw --force enable
+
+
+             INSTALL OPERATING SYSTEM DEPENDENCIES: ----------------------
+
+                Update:
+                    [command]: sudo apt-get update
+
+                Dependencies:
+                    Python -
+                    [command]: sudo apt-get install python3 python3-venv python3-dev
+                    Services & Environment -
+                    [command]: sudo apt-get install mysql-server postfix supervisor nginx git
+
+                *About Elasticsearch
+                    Miguel does not install elasticsearch because of the large amount of memory it takes up.
+                    But if the prod environment has the memory, you can install it now.
+                    Install the .deb elasticsearch package if desired.
+
+                *About Postfix
+                    A domain name must be setup.
+                    You must create SPF & DKIM records in the DNS
+
+
+
+
+
+
+        Heroku Deployment: -----
+
+        Docker Deployment: -----
 
 
