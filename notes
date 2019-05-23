@@ -774,6 +774,13 @@ DEPLOYMENT: --------------------------------------------------------------------
 
                 [command]: gunicorn -b localhost:8000 -w 4 microblog:app
                 [program] -b [ip+port] -[w for workers] [# worker processes allocated] [module entry:app instance]
+		note: you can use the option "-preload" in the command to have gunicorn tell you what's wrong in more 
+		detail if you end up getting "bad gateway".
+		Also, look in the error.log and access.log files if a connection is unsuccessful. 
+		
+		Important: make sure the permissions on microblog are appropriately set. Otherwise, you may get a 
+		"Connection reset by peer" or "connection refused" error result in nginx, telling you gunicorn refused
+		some operation while trying to delivering a response. 
 
                 Supervisor:
 
@@ -806,9 +813,11 @@ DEPLOYMENT: --------------------------------------------------------------------
 [command]: openssl req -new -newkey rsa:4096 -days 365 -nodes -x509 -keyout certs/key.pem -out certs/cert.pem
                     C) Create configuration for the application in NGINX
                         -remove the default configuration. [command]: sudo rm /etc/nginx/sites-enabled/default
-                        -write the config file. [command]: sudo nano /etc/nginx/sites-enables/microblog
+                        -write the config file. [command]: sudo nano /etc/nginx/sites-enabled/microblog
                     D) Restart the nginx application server:
                     [command]: sudo service nginx reload
+		    
+		  
 
                     DONE!!!!! YOUR APP IS DEPLOYED
 
