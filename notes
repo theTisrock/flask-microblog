@@ -643,10 +643,32 @@ FULL TEXT SEARCH: --------------------------------------------------------
 
 DEPLOYMENT: --------------------------------------------------------------------------------
 
+    General deployment components are
+
+    THE CODE
+    A) The code base & project structure;
+    B) The application instance delivery. microblog.py in this case. Also known as the entry point.0
+
+    THE CODE/PROJECT DEPENDENCIES
+    C) The code dependencies like libraries, frameworks, and packages must be installed
+
+    ENVIRONMENT VARIABLES MUST BE SET
+    D) Setting the database url, secret_key, web api keys, smtp port & ip, flask_app, etc
+        Note: FLASK_APP must be set as a prerequisite outside the project env
+
+    SERVER & OS dependencies
+    E) Install Application server, Web server, SMTP server, all related ports and sockets
+    F) Configure all of the above conf files
+    G) Install a supervisor and configure it to monitor the application
+    H) Start app server and/or web server
+
+    DEPLOY
+    I) If it's a compiled language, then the .jar file for example will need to be placed.
+        If it's an interpreted language, then deploying changes via Git. Then restart app server.
 
         (Ubuntu) Linux Deployment: ------
 
-            Traditional hosting has two options: 1) run locally in a virtual server or 2) rent a server
+            This traditional hosting approach has two options: 1) run locally in a virtual server or 2) rent a server
 
             Accessing the server using SSH client. This is built into Linux called "openssh".
 
