@@ -658,12 +658,13 @@ DEPLOYMENT: --------------------------------------------------------------------
 
     SERVER & OS dependencies
     E) Install Application server, Web server, SMTP server, all related ports and sockets
-    F) Configure all of the above conf files
-    G) Install a supervisor and configure it to monitor the application
-    H) Start app server and/or web server
+    F) SECURE THE SERVERS w/ FIREWALLS
+    G) Configure all of the above conf files
+    H) Install a supervisor and configure it to monitor the application
+    I) Start app server and/or web server
 
     DEPLOY
-    I) If it's a compiled language, then the .jar file for example will need to be placed.
+    J) If it's a compiled language, then the .jar file for example will need to be placed.
         If it's an interpreted language, then deploying changes via Git. Then restart app server.
 
         (Ubuntu) Linux Deployment: ------
