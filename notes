@@ -886,3 +886,6 @@ DEPLOYMENT: --------------------------------------------------------------------
         Docker Deployment: -----
 
 
+            The piece for docker is the dockerfile. It is a scripted deployment of a container.
+
+
