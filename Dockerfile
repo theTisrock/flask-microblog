@@ -8,7 +8,6 @@ COPY Pipfile Pipfile
 COPY Pipfile.lock Pipfile.lock
 RUN /usr/bin/pipenv install
 RUN /usr/bin/pipenv install gunicorn pymysql
-RUN /usr/bin/pipenv shell
 
 COPY microblog_app microblog_app
 COPY migrations migrations
