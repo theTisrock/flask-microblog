@@ -853,6 +853,36 @@ DEPLOYMENT: --------------------------------------------------------------------
 
         Heroku Deployment: -----
 
+        Heroku is a platform-as-a-service PaaS for app deployment.
+
+        It uses an Ephemerel file system. The storage is not permanent. When the application restarts, the file system
+        will disappear. Solution: modify the application so that you are not dependent upon the disk/file system.
+
+        1) Register on Heroku
+        2) Install the Heroku CLI
+        3) login via CLI -
+            [command]: heroku login
+        4) be sure git is installed
+        5) Create the app on heroku -
+            [command]: heroku apps:create [app name]
+            -heroku modifies the git repo to include a "heroku" repo on our upstream
+        6) Provision a database as an add on from heroku -
+            [command]: heroku addons:add heroku-postgresql:hobby-dev
+            This sets the environment variable called DATABASE_URL, which is convenient for our app.
+        7) Write logs to standard out
+            -made an env variable called LOG_TO_STDOUT
+        8) Provide a requirements.txt file & add gunicorn and psycopg2 (postgres driver)
+            Note: Because I'm using pipenv, I'll need to make a requirements.txt file from
+            the Pipfile, unless Heroku accepts the Pipfile as a substitute.
+        9) Procfile at root level of app folder. This file is required for the app to start.
+            process name: [command]; [command]; [command]
+            web: flask db upgrade; flask translate compile; gunicorn microblog:app
+        10) Define FLASK_APP in the heroku context.
+            [command]: heroku config:set FLASK_APP=microblog.py
+        11) Push code to heroku.
+            [command]: git push heroku [name of deploy branch]:[name of heroku deploy branch]
+        12) go visit the URL on heroku
+
         Docker Deployment: -----
 
 
