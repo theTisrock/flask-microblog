@@ -20,6 +20,8 @@ guess-language-spirit = "*"
 requests = "*"
 python-dotenv = "*"
 elasticsearch = "*"
+gunicorn = "*"
+psycopg2="*"
 
 [dev-packages]
 
