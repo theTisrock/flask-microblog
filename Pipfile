@@ -21,7 +21,8 @@ requests = "*"
 python-dotenv = "*"
 elasticsearch = "*"
 gunicorn = "*"
-psycopg2="*"
+psycopg2 = "*"
+psycopg2-binary = "*"
 
 [dev-packages]
 
