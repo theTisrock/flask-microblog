@@ -147,6 +147,8 @@ def user(username):
     return render_template("user.html", title=_(f"{user.username}'s profile"), user=user, posts=posts.items,
                            next_page=next_page, prev_page=prev_page)
 
+@bp.route(Action)
+
 
 @bp.route(URLRoute.follow)
 @login_required

@@ -10,6 +10,7 @@ class Action():
     # main sub system
     search = 'main.search'
     user = 'main.user'
+    user_popup = 'main.user_popup'
     edit_profile = 'main.edit_profile'
     explore = 'main.explore'
     index = 'main.index'
@@ -37,6 +38,7 @@ class URLRoute():
     logout = "/logout"
     register = "/register"
     user = "/user/<username>"
+    popup = user + "/popup"
     unfollow = "/unfollow/<username>"
     request_password_reset = "/request_password_reset"
     reset_password = "/reset_password/<token>"
