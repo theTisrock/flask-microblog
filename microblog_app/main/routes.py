@@ -147,7 +147,11 @@ def user(username):
     return render_template("user.html", title=_(f"{user.username}'s profile"), user=user, posts=posts.items,
                            next_page=next_page, prev_page=prev_page)
 
-@bp.route(Action)
+@bp.route(URLRoute.popup)
+@login_required
+def user_popup(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    return render_template("user_popup.html", user=user)
 
 
 @bp.route(URLRoute.follow)
