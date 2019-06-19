@@ -16,6 +16,8 @@ class Action():
     index = 'main.index'
     follow = 'main.follow'
     unfollow = 'main.unfollow'
+    send_message = 'main.send_message'
+    messages = 'main.messages'
 
     # auth sub system
     login = 'user_auth.login'
@@ -36,11 +38,13 @@ class URLRoute():
     home = {'root': "/", 'index': "/index"}
     login = "/login"
     logout = "/logout"
+    messages = "/messages"
     register = "/register"
     user = "/user/<username>"
     popup = user + "/popup"
     unfollow = "/unfollow/<username>"
     request_password_reset = "/request_password_reset"
     reset_password = "/reset_password/<token>"
+    send_message = "/send_message/<recipient>"
 
 # end urls

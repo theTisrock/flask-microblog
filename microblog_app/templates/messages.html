@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block app_content %}
+
+<h1>Messages</h1>
+
+{% if messages %}
+    {% for post in messages %}
+        {% include '_posts.html' %}
+    {% endfor %}
+{% else %}
+    <p>You have no messages currently.</p>
+{% endif %}
+
+
+{% endblock %}

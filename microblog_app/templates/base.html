@@ -36,6 +36,15 @@
                     {% if current_user.is_anonymous %}
                     <li><a href="{{ url_for(Action.login) }}">{{ _('Login') }}</a></li>
                     {% else %}
+                    <li>
+                        <a href="{{ url_for(Action.messages) }}">Messages
+                            {% set new_messages = current_user.new_messages() %}
+                            <span id="message_count" class="badge"
+                                style="visibility:
+                                {% if new_messages %} visible {% else %} hidden {% endif %};">
+                                {{ new_messages }}
+                            </span>
+                        </a></li>
                     <li><a href="{{ url_for(Action.user, username=current_user.username) }}">{{ _('Profile') }}</a></li>
                     <li><a href="{{ url_for(Action.logout) }}">{{ _('Logout') }}</a></li>
                     {% endif %}
@@ -122,6 +131,13 @@
                 }
             );
         });
+
+        // this function enables access to appropriate elements
+        function set_message_count(n) {
+            $('#message_count').text(n);
+            $('#message_count').css('visibility', n ? 'visible' : 'hidden');
+        }
+
     </script>
 
 {% endblock %}

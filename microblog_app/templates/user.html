@@ -10,6 +10,12 @@
     <p><a href="{{ url_for(Action.follow, username=user.username) }}">{{ _('follow') }}</a></p>
 {% endif %}
 
+
+{% if user != current_user %}
+    <p><a href="{{ url_for(Action.send_message, recipient=user.username) }}">{{ _('Send private message') }}</a></p>
+{% endif %}
+
+
 <table>
     <tr valign="top">
         <td><img src="{{ user.pull_avatar(128) }}"></td>
